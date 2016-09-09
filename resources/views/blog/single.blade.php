@@ -3,8 +3,13 @@
 @section('title', "| $titleTag")
 
 @section('content')
+<div class="container-fixed">
   <div class="row">
-    <div class="col-md-6 col-md-offset-3">
+    <div class="col-md-4">
+      <img src="/images/keep_calm.jpg" height="800" width="400">
+    </div>
+
+    <div class="col-md-7 col-md-offset-1">
       @if(isset($post->image))
         <img src="{{ asset('images/' . $post->image) }}" height="400" width="800">
       @endif
@@ -13,10 +18,10 @@
       <hr>
       <p>Posted In: {{ $post->category->name }}</p>
     </div> <!-- col -->
-  </div> <!-- row -->
+  {{-- </div> <!-- row --> --}}
 
-  <div class="row">
-    <div class="col-md-8 col-md-offset-2">
+  {{-- <div class="row"> --}}
+    <div class="col-md-7 col-md-offset-1">
       <h3 class="comments-title">
         <span class="glyphicon glyphicon-comment"></span>
         {{ $post->comments()->count() }} Comments
@@ -42,22 +47,22 @@
         </div> <!-- comment -->
       @endforeach
     </div> <!-- col -->
-  </div> <!-- row -->
+  {{-- </div> <!-- row --> --}}
 
   <div class="row">
-    <div id="comment-form" class="col-md-8 col-md-offset-2" style="margin-top: 50px;">
+    <div id="comment-form" class="col-md-7 col-md-offset-5">
       {{ Form::open(['route' => ['comments.store', $post->id],
                      'method' => 'POST']) }}
-      <div class="row">
-        <div class="col-md-6">
+      {{-- <div class="row"> --}}
+        {{-- <div class="col-md-7 col-md-offset-5"> --}}
           {{ Form::label('name', 'Name:') }}
           {{ Form::text('name', null, ['class' => 'form-control']) }}
-        </div> <!-- col -->
-        <div class="col-md-6">
+        {{-- </div> <!-- col --> --}}
+        {{-- <div class="col-md-7 col-md-offset-5"> --}}
           {{ Form::label('email', 'Email:') }}
           {{ Form::text('email', null, ['class' => 'form-control']) }}
-        </div> <!-- col -->
-        <div class="col-md-12">
+        {{-- </div> <!-- col --> --}}
+        {{-- <div class="col-md-7 col-md-offset-5"> --}}
           {{ Form::label('comment', 'Comment:', ['class' => 'form-spacing-top']) }}
           {{ Form::textarea('comment', null, [
                             'class' => 'form-control',
@@ -65,11 +70,13 @@
 
           {{ Form::submit('Add Comment', [
                           'class' => 'btn btn-success btn-block']) }}
-        </div> <!-- col -->
-      </div> <!-- row -->
+        {{-- </div> <!-- col --> --}}
+      {{-- </div> <!-- row --> --}}
 
       {{ Form::close() }}
 
     </div> <!-- comment form -->
   </div> <!-- row -->
+  </div> <!-- row -->
+</div> <!-- container -->
 @endsection
