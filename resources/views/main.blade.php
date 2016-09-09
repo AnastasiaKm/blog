@@ -15,7 +15,6 @@
 
       @yield('content')
 
-      @include('partials._footer')
 
     </div> <!-- container -->
 
@@ -24,5 +23,14 @@
 
       @yield('scripts')
 
+
+
   </body>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6 col-md-offset-3">
+        @include('partials._footer')
+      </div>
+    </div>
+  </div>
 </html>
