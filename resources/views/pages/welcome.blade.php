@@ -3,7 +3,7 @@
 @section('title', '| Homepage')
 
 @section('content')
-  <div class="col-md-5 col-md-offset-3">
+  <div class="col-md-4 col-md-offset-4">
     <div class="carousel slide" data-ride="carousel" id="featured">
 
     <ol class="carousel-indicators">
@@ -15,16 +15,16 @@
 
       <div class="carousel-inner">
         <div class="item active">
-          <img src="images/my_blog.jpg" class="image-center" alt="My Blog Photo">
+          <img src="images/my_blog.jpg" class="img-responsive center-block" alt="My Blog Photo">
         </div>
         <div class="item">
-          <img src="images/vegetables.jpg" class="image-center" alt="Vegetables">
+          <img src="images/vegetables.jpg" class="img-responsive center-block" alt="Vegetables">
         </div>
         <div class="item">
-          <img src="images/cake.jpg" class="image-center" alt="Cake">
+          <img src="images/cake.jpg" class="img-responsive center-block" alt="Cake">
         </div>
         <div class="item">
-          <img src="images/games.jpg" class="image-center" alt="Games">
+          <img src="images/games.jpg" class="img-responsive center-block" alt="Games">
         </div>
 
       </div> <!-- carousel inner -->
@@ -43,7 +43,7 @@
   </div> <!-- col -->
 
       <div class="row">
-        <div class="col-md-8">
+        <div class="col-md-8 col-md-offset-2">
           @foreach($posts as $post)
 
             <div class="post">

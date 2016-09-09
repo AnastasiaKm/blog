@@ -5,14 +5,14 @@
 @section('content')
 
   <div class="row">
-    <div class="col-md-8">
+    <div class="col-md-4 col-md-offset-2">
       <h1>All Posts</h1>
     </div> <!-- col -->
 
-    <div class="col-md-4">
+    <div class="col-md-2 col-md-offset-1">
       <a href="{{ route('posts.create') }}"
-        class="btn btn-lg btn-block btn-primary btn-h1-spacing">
-        Create New Post
+        class="btn btn-primary btn-block btn-h1-spacing">
+        <img src="/images/post.jpg" class="img-responsive center-block"><strong> Create New Post</strong>
       </a>
     </div> <!-- col -->
     <div class="col-md-12">
@@ -21,7 +21,7 @@
   </div> <!-- row -->
 
   <div class="row">
-    <div class="col-md-12">
+    <div class="col-md-8 col-md-offset-2">
       <table class="table">
         <thead>
           {{-- <th>#</th> --}}

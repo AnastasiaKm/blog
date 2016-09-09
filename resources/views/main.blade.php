@@ -8,7 +8,7 @@
 
     @include('partials._nav')
 
-    <div class="container">
+    <div class="container-fixed-width">
       @include('partials._messages')
 
       {{-- {{ Auth::check() ? "Logged in" : "Logged Out" }} --}}

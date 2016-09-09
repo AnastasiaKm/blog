@@ -4,19 +4,17 @@
 
 @section('content')
   <div class="row">
-    <div class="col-md-8">
+    <div class="col-md-6 col-md-offset-2">
       <h1>Tags</h1>
       <table class="table">
         <thead>
           <tr>
-            <th>#</th>
             <th>Name</th>
           </tr>
         </thead>
         <tbody>
           @foreach($tags as $tag)
             <tr>
-              <td>{{ $tag->id }}</td>
               <td>
                 <a href="{{ route('tags.show', $tag->id) }}">
                  {{ $tag->name }}  </a>
@@ -27,7 +25,7 @@
       </table>
     </div> <!-- col -->
 
-    <div class="col-md-3 col-md-offset-1">
+    <div class="col-md-2 col-md-offset-1">
       <div class="well">
         {!! Form::open(['route' => 'tags.store',
                         'method' => 'POST']) !!}

@@ -6,12 +6,13 @@
 <div class="container-fixed">
   <div class="row">
     <div class="col-md-4">
-      <img src="/images/keep_calm.jpg" height="800" width="400">
+      <img src="/images/keep_calm.jpg"
+        class="img-responsive center-block">
     </div>
 
-    <div class="col-md-7 col-md-offset-1">
+    <div class="col-md-5 col-md-offset-2">
       @if(isset($post->image))
-        <img src="{{ asset('images/' . $post->image) }}" height="400" width="800">
+        <img src="{{ asset('images/' . $post->image) }}" class="img-responsive center-block">
       @endif
       <h1>{{ $post->title }}</h1>
       <p>{!! $post->body !!}</p>
@@ -21,7 +22,7 @@
   {{-- </div> <!-- row --> --}}
 
   {{-- <div class="row"> --}}
-    <div class="col-md-7 col-md-offset-1">
+    <div class="col-md-5 col-md-offset-2">
       <h3 class="comments-title">
         <span class="glyphicon glyphicon-comment"></span>
         {{ $post->comments()->count() }} Comments
@@ -50,7 +51,7 @@
   {{-- </div> <!-- row --> --}}
 
   <div class="row">
-    <div id="comment-form" class="col-md-7 col-md-offset-5">
+    <div id="comment-form" class="col-md-5 col-md-offset-6">
       {{ Form::open(['route' => ['comments.store', $post->id],
                      'method' => 'POST']) }}
       {{-- <div class="row"> --}}

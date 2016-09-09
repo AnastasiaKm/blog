@@ -7,18 +7,19 @@
     <div class="row">
       <div class="col-md-4">
         <div class="navbar-left">
-          <img src="/images/keep_calm.jpg" height="800" width="400">
+          <img src="/images/keep_calm.jpg"
+            class="img-responsive center-block">
         </div> <!-- sidebar-nav -->
       </div> <!-- col -->
 
-      <div class="col-md-7 col-md-offset-1">
+      <div class="col-sm-6 col-sm-offset-2">
         <h1>Blog</h1>
       </div> <!-- col -->
     {{-- </div> <!-- row --> --}}
 
     @foreach($posts as $post)
       {{-- <div class="row"> --}}
-        <div class="col-md-7 col-md-offset-1">
+        <div class="col-sm-6 col-sm-offset-2">
           <h2>{{ $post->title }}</h2>
           <h5>Published: {{ date('M j, Y', strtotime($post->created_at)) }}</h5>
           <p>
@@ -29,8 +30,8 @@
           <hr>
         </div> <!-- col -->
 
-      {{-- </div> <!-- row --> --}}
     @endforeach
+    </div> <!-- row -->
   {{-- </div> <!-- container --> --}}
 
   <div class="row">

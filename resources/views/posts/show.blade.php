@@ -6,8 +6,10 @@
 @section('content')
 
 <div class="row">
-  <div class="col-md-8">
-    <img src="{{ asset('images/' . $post->image) }}" alt="This is a photo">
+  <div class="col-md-5 col-md-offset-1">
+    @if(isset($post->image))
+      <img src="{{ asset('images/' . $post->image) }}" class="img-responsive center-block">
+    @endif
     <h1>{{ $post->title }}</h1>
 
     <p class="lead"> {!! $post->body !!} </p>
@@ -50,7 +52,7 @@
     </div> <!-- backend-comments -->
   </div> <!-- col -->
 
-  <div class="col-md-4">
+  <div class="col-md-4 col-md-offset-1">
     <div class="well">
 
       <dl class="dl-horizontal">
@@ -78,7 +80,7 @@
 
       <div class="row">
         <div class="col-sm-6">
-          {!! Html::linkRoute('posts.edit', 'Edit',
+          {!! Html::linkRoute('posts.edit', 'Edit Post',
                     array($post->id),
                     array('class' => 'btn btn-primary btn-block')) !!}
         </div> <!-- col -->
@@ -86,7 +88,7 @@
         <div class="col-sm-6">
           {!! Form::open(['route' => ['posts.destroy', $post->id],
                           'method' => 'DELETE']) !!}
-          {!! Form::submit('Delete',
+          {!! Form::submit('Delete Post',
                           ['class' => 'btn btn-danger btn-block']) !!}
           {!! Form::close() !!}
         </div> <!-- col -->
