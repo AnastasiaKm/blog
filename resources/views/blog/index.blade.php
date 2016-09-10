@@ -20,13 +20,15 @@
       {{-- <div class="row"> --}}
         <div class="col-sm-6 col-sm-offset-2">
           @foreach($posts as $post)
-            <h2>{{ $post->title }}</h2>
-            <h5>Published: {{ date('M j, Y', strtotime($post->created_at)) }}</h5>
-            <p>
-              {{ substr(strip_tags($post->body), 0, 250) }}
-              {{ strlen(strip_tags($post->body)) > 250 ? "..." : "" }}
-            </p>
-            <a href="{{ route('blog.single', $post->slug) }}" class="btn btn-primary">Read More</a>
+            <div class="post">
+              <h2>{{ $post->title }}</h2>
+              <h5>Published: {{ date('M j, Y', strtotime($post->created_at)) }}</h5>
+              <p>
+                {{ substr(strip_tags($post->body), 0, 300) }}
+                {{ strlen(strip_tags($post->body)) > 300 ? "..." : "" }}
+              </p>
+              <a href="{{ url('blog/' . $post->slug) }}" class="btn btn-primary">Read More</a>
+            </div> <!-- post -->
             <hr>
           @endforeach
         </div> <!-- col -->
