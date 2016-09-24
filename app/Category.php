@@ -6,8 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Category extends Model
 {
-    // We are defining this because the plural of the category is different from the expected
-
+    protected $fillable = ['name'];
     protected $table = 'categories';
     public function posts()
     {

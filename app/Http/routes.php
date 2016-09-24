@@ -11,47 +11,42 @@
 |
 */
 
-// Authentication Routes
-// Route::get('auth/login', 'Auth\AuthController@getLogin');
-Route::get('auth/login', ['uses' => 'Auth\AuthController@getLogin', 'as' => 'login']);
-Route::post('auth/login', 'Auth\AuthController@postLogin');
-Route::get('auth/logout', ['uses' => 'Auth\AuthController@getLogout', 'as' => 'logout']);
+Route::get('/', function () {
+    return view('welcome');
+});
 
-// Registration Routes
-Route::get('auth/register', 'Auth\AuthController@getRegister');
-Route::post('auth/register', 'Auth\AuthController@postRegister');
+Route::auth();
 
-// Password Reset Routes
-Route::get('password/reset/{token?}', 'Auth\PasswordController@showResetForm');
-Route::post('password/email', 'Auth\PasswordController@sendResetLinkEmail');
-Route::post('password/reset', 'Auth\PasswordController@reset');
+Route::get('/home', 'HomeController@index');
 
-// categories
-// 3rd param is an array which excepts all the functions we have deleted
-// in the controller
-Route::resource('categories', 'CategoryController', ['except' => ['create']]);
-// Tags
-Route::resource('tags', 'TagController', ['except' => ['create']]);
-
-// Comments
-Route::post('comments/{post_id}', ['uses' => 'CommentsController@store',
-                                   'as' => 'comments.store']);
-Route::get('comments/{id}/edit', ['uses' => 'CommentsController@edit',
-                                  'as' => 'comments.edit']);
-Route::put('comments/{id}', ['uses' => 'CommentsController@update',
-                                  'as' => 'comments.update']);
-Route::delete('comments/{id}', ['uses' => 'CommentsController@destroy',
-                                  'as' => 'comments.destroy']);
-Route::get('comments/{id}/delete', ['uses'=> 'CommentsController@delete',
-                                  'as' => 'comments.delete']);
+Route::get('/admin', function(){
+  return view('admin.index');
+});
+Route::get('/author', function(){
+  return view('author.index');
+});
 
 
-Route::get('/blog/{slug}', ['as'  => 'blog.single',
-                           'uses' => 'BlogController@getSingle'])
-                                  ->where('slug', '[\w\d\-\_]+');
-Route::get('blog', ['uses' => 'BlogController@getIndex', 'as' => 'blog.index']);
-// Route::get('contact', 'PagesController@getContact');
-// Route::post('contact', 'PagesController@postContact');
-Route::get('about', 'PagesController@getAbout');
-Route::get('/', 'PagesController@getIndex');
-Route::resource('posts', 'PostController');
+Route::group(['middleware' => 'admin'], function(){
+  Route::resource('admin/users', 'AdminUsersController');
+  Route::resource('admin/posts', 'AdminPostsController');
+  Route::resource('admin/categories', 'AdminCategoriesController');
+  Route::resource('admin/tags', 'AdminTagsController');
+  Route::resource('admin/media', 'AdminMediasController');
+  Route::post('admin/comments/{post_id}', ['uses' => 'AdminCommentsController@store',
+                                   'as' => 'admin.comments.store']);
+  Route::get('admin/comments/{id}/edit', ['uses' => 'AdminCommentsController@edit',
+                                    'as' => 'admin.comments.edit']);
+  Route::put('admin/comments/{id}', ['uses' => 'AdminCommentsController@update',
+                        'as' => 'admin.comments.update']);
+  Route::delete('admin/comments/{id}', ['uses' => 'AdminCommentsController@destroy',
+                                    'as' => 'admin.comments.destroy']);
+  Route::get('admin/comments/{id}/delete', ['uses'=> 'AdminCommentsController@delete',
+                                  'as' => 'admin.comments.delete']);
+
+});
+
+Route::group(['middleware' => 'author'], function(){
+  Route::resource('author/posts', 'AuthorPostsController');
+  Route::resource('author/categories', 'AuthorCategoriesController');
+});
