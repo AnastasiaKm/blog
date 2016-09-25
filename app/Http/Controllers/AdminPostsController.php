@@ -71,13 +71,13 @@ class AdminPostsController extends Controller
       $post->category_id = $request->category_id;
 
       if ($file= $request -> file('photo_id')) {
-        $name = 'post_photo' . time() . $file -> getClientOriginalExtension();
+        $name = 'post_photo' . '_' . time() . '.' . $file -> getClientOriginalExtension();
 
         // $filename = 'post_photo' . time() . '.' . $image->getClientOriginalExtension();
         // $location = public_path('images/' . $filename);
 
          $file->move('images', $name);
-        // Storage::putFileAs('images', new File('/path/to/photo'), 'photo.jpg');
+        // Storage::putFileAs('images', new File('/path/to/photo'), "$name");
         // Inserts the photo to the photos table
         $photo = new Photo;
         $photo = Photo::create(['file' => $name]);
@@ -161,10 +161,10 @@ class AdminPostsController extends Controller
 
         if ($file = $request->file('photo_id')) {
 
-          $name = 'post_photo' . time() . $file -> getClientOriginalExtension();
+          $name = 'post_photo' . '_' . time() . '.' . $file -> getClientOriginalExtension();
 
           $file->move('images', $name);
-          
+
           $photo = Photo::create(['file' => $name]);
 
           // $input['photo_id'] = $photo->id;

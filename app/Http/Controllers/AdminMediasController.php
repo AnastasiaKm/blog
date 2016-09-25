@@ -25,7 +25,7 @@ class AdminMediasController extends Controller
     {
       $file = $request->file('file');
 
-      $name = time() . $file->getClientOriginalName();
+      $name = 'post_photo' . '_' . time() . '.' . $file -> getClientOriginalExtension();
 
       $file->move('images', $name);
 
