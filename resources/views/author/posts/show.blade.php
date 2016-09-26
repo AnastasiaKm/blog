@@ -46,7 +46,7 @@
               <td>{{ $comment->comment }}</td>
               <td>{{ $comment->created_at ? $comment->created_at->diffForHumans() : "no date" }}</td>
               <td>
-                @if(Auth::user()->id == $post->user_id)
+                @if(Auth::user()->id == $comment->user_id)
                   <a href="{{ route('author.comments.edit', $comment->id) }}" class="btn btn-xs btn-primary">
                     <span class="glyphicon glyphicon-pencil"></span>
                   </a>
