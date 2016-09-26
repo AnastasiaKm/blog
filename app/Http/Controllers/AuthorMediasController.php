@@ -5,10 +5,11 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
-use App\Category;
+use App\Photo;
 use Session;
 
-class AuthorCategoriesController extends Controller
+
+class AuthorMediasController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,11 +18,21 @@ class AuthorCategoriesController extends Controller
      */
     public function index()
     {
-      $categories = Category::orderBy('name')->paginate(10);
-      return view('author.categories.index')->with('categories', $categories);
+      $photos = Photo::all();
+      return view('author.media.index')->with('photos', $photos);
 
     }
 
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+      return view('author.media.create');
+
+    }
 
     /**
      * Store a newly created resource in storage.
@@ -31,9 +42,14 @@ class AuthorCategoriesController extends Controller
      */
     public function store(Request $request)
     {
-      Category::create($request->all());
-      Session::flash('success', 'The category has been added!');
-      return redirect()->route('author.categories.index');
+      $file = $request->file('file');
+
+      $name = 'post_photo' . '_' . time() . '.' . $file -> getClientOriginalExtension();
+
+      $file->move('images', $name);
+
+      Photo::create(['file' => $name]);
+
     }
 
     /**
@@ -55,9 +71,7 @@ class AuthorCategoriesController extends Controller
      */
     public function edit($id)
     {
-      $category = Category::findOrFail($id);
-      return view('author.categories.edit')->with('category', $category);
-
+        //
     }
 
     /**
@@ -69,11 +83,7 @@ class AuthorCategoriesController extends Controller
      */
     public function update(Request $request, $id)
     {
-      $category = Category::findOrFail($id);
-      $category->update($request->all());
-      Session::flash('success', 'The category has been updated!');
-      return redirect()->route('author.categories.index');
-
+        //
     }
 
     /**
@@ -84,9 +94,11 @@ class AuthorCategoriesController extends Controller
      */
     public function destroy($id)
     {
-      Category::findOrFail($id)->delete();
-      Session::flash('success', 'The category has been deleted!');
-      return redirect()->route('author.categories.index');
+      $photo = Photo::findOrFail($id);
+      unlink(public_path() . $photo->file);
+      $photo->delete();
+      Session::flash('success', 'The photo has been deleted!');
+      return redirect()->route('author.media.index');
 
     }
 }

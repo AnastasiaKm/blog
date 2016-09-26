@@ -5,12 +5,12 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests\PostsCreateRequest;
 use App\Post;
-use App\Category;
 use Auth;
 use App\Photo;
+use App\Category;
 use App\Tag;
 use Session;
-use Purifier;
+// use Purifier;
 use Image;
 
 
@@ -25,7 +25,7 @@ class AuthorPostsController extends Controller
      */
     public function index()
     {
-      $posts = Post::all();
+      $posts = Post::orderBy('id', 'desc')->paginate(5);
       return view('author.posts.index')->with('posts', $posts);
     }
 
@@ -37,8 +37,9 @@ class AuthorPostsController extends Controller
     public function create()
     {
       $categories = Category::lists('name', 'id')->all();
-      // $tags = Tag::all();
-      return view('author.posts.create')->with('categories', $categories)->with('tags', $tags);
+      $tags = Tag::all();
+      return view('author.posts.create')->with('categories', $categories)
+                                       ->with('tags', $tags);
 
     }
 
@@ -55,31 +56,37 @@ class AuthorPostsController extends Controller
         'body' => 'required',
         // 'slug' => 'required|alpha_dash|min:5|max:255|unique:posts,slug',
         'category_id' => 'required|integer',
-        'featured_image' => 'sometimes|image'
+        'photo_id' => 'sometimes|image'
       ));
-      // $input = $request->all();
+      $input = $request->all();
+      $slug=str_slug("$request->title" . time(),'_');
 
       $user = Auth::user();
       $post = new Post;
       $post->title = $request->title;
-      // $post->slug = $request->slug;
-      $post->body = Purifier::clean($request->body);
+      $post->slug = $slug;
+      $post->user_id = $user ->id;
+      $post->body = $request->body;
       $post->category_id = $request->category_id;
 
-      if ($image = $request->file('featured_image')) {
+      if ($file= $request -> file('photo_id')) {
+        $name = 'post_photo' . '_' . time() . '.' . $file -> getClientOriginalExtension();
 
-        $filename = time() . '.' . $image->getClientOriginalExtension();
+        // $filename = 'post_photo' . time() . '.' . $image->getClientOriginalExtension();
+        // $location = public_path('images/' . $filename);
 
-        $location = public_path('images/' . $filename);
-
-        // $file->move('images', $name);
-
-        // $photo = Photo::create(['file' => $name]);
-        //
+         $file->move('images', $name);
+        // Storage::putFileAs('images', new File('/path/to/photo'), "$name");
+        // Inserts the photo to the photos table
+        $photo = new Photo;
+        $photo = Photo::create(['file' => $name]);
+        // Inserts the photo_id key to the Posts Table
         // $input['photo_id'] = $photo->id;
-        Image::make($image)->resize(400,200)->save($location);
+        $post['photo_id'] = $photo->id;
 
-        $post->file = $filename;
+        // Image::make($image)->resize(400,200)->save($location);
+
+        // $post->file = $filename;
 
       }
       $post->save();
@@ -100,8 +107,9 @@ class AuthorPostsController extends Controller
      */
     public function show($id)
     {
-        $post = Post::findOrFail($id);
-        return view('author.posts.show')->with('post', $post);
+      $post = Post::find($id);
+      $user = Auth::user();
+      return view('author.posts.show')->with('post', $post)->with('user', $user);
 
     }
 
@@ -113,7 +121,21 @@ class AuthorPostsController extends Controller
      */
     public function edit($id)
     {
-        //
+      $post = Post::findOrFail($id);
+      $user = Auth::user();
+      $categories = Category::lists('name','id')->all();
+
+      $tags = Tag::all();
+      $tags2 = array();
+      foreach ($tags as $tag) {
+        $tags2[$tag->id] = $tag->name;
+      }
+
+      return view('author.posts.edit')->with('post', $post)
+                                    ->with('categories', $categories)
+                                    ->with('tags', $tags2)
+                                    ->with('user', $user);
+
     }
 
     /**
@@ -125,7 +147,45 @@ class AuthorPostsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+      $post = Post::findOrFail($id);
+      $this->validate($request, array(
+        'title' => 'required|max:255',
+        'category_id' => 'required',
+        'body' => 'required'
+      ));
+      $post = Post::findOrFail($id);
+      $post->title = $request->input('title');
+      $post->category_id = $request->input('category_id');
+      $post->body = $request->input('body');
+
+      // $input = $request->all();
+
+      if ($file = $request->file('photo_id')) {
+
+        $name = 'post_photo' . '_' . time() . '.' . $file -> getClientOriginalExtension();
+
+        $file->move('images', $name);
+
+        $photo = Photo::create(['file' => $name]);
+
+        // $input['photo_id'] = $photo->id;
+        $photo_id=$photo->id;
+        $post->photo_id=$photo_id;
+      }
+      $post->save();
+
+      if(isset($request->tags)) {
+        $post->tags()->sync($request->input('tags'));
+      } else {
+        $post->tags()->sync(array());
+      }
+
+
+      // Auth::user()->posts()->whereId($id)->first()->update($input);
+      Session::flash('success', 'The post has been updated!');
+
+      return redirect()->route('author.posts.index');
+
     }
 
     /**
@@ -136,6 +196,14 @@ class AuthorPostsController extends Controller
      */
     public function destroy($id)
     {
-        //
+      $post = Post::findOrFail($id);
+      unlink(public_path() . $post->photo->file);
+
+      $post->delete();
+
+      Session::flash('success', 'The post has been deleted!');
+
+      return redirect()->route('author.posts.index');
+
     }
 }

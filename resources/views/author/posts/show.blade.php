@@ -4,7 +4,7 @@
 @section('content')
 
 <div class="row">
-  <div class="col-md-5 col-md-offset-1">
+  <div class="col-md-6 col-md-offset-1">
     @if(isset($post->image))
       <img src="{{ asset('images/' . $post->image) }}" class="img-responsive center-block">
     @endif
@@ -13,51 +13,63 @@
     <p class="lead"> {!! $post->body !!} </p>
     <hr>
 
-    {{-- <div class="tags">
+    <div class="tags">
+      <span class="label label-info">Tags:</span><br>
       @foreach($post->tags as $tag)
         <span class="label label-default">{{ $tag->name }}</span>
       @endforeach
-    </div> <!-- tags --> --}}
-    {{-- <div id="backend-comments" style="margin-top: 50px;">
-      <h3>Comments<small> {{ $post->comments()->count() }} total</small> </h3>
+    </div> <!-- tags -->
+    <div id="backend-comments" style="margin-top: 50px;">
+      <h3 class="comments-title">
+        <span class="glyphicon glyphicon-comment"></span>
+        {{ $post->comments()->count() }} Comments
+      </h3>
+
       <table class="table">
         <thead>
           <tr>
             <th>Name</th>
-            <th>Email</th>
             <th>Comment</th>
+            <th>Created</th>
             <th width="70px;"></th>
           </tr>
         </thead>
         <tbody>
           @foreach($post->comments as $comment)
-          <tr>
-            <td>{{ $comment->name }}</td>
-            <td>{{ $comment->email }}</td>
-            <td>{{ $comment->comment }}</td>
-            <td>
-              <a href="{{ route('comments.edit', $comment->id) }}" class="btn btn-xs btn-primary">
-                <span class="glyphicon glyphicon-pencil"></span>
-              </a>
-              <a href="{{ route('comments.delete', $comment->id) }}" class="btn btn-xs btn-danger">
-                <span class="glyphicon glyphicon-trash"></span>
-              </a>
-            </td>
-          </tr>
-        @endforeach
+            <tr>
+              <td>
+                  <input class="form-control" type="text"
+                  placeholder="{{ $comment->user_id }}"
+                  value="{{ $comment->user->name }}"
+                  readonly="">
+              </td>
+              <td>{{ $comment->comment }}</td>
+              <td>{{ $comment->created_at ? $comment->created_at->diffForHumans() : "no date" }}</td>
+              <td>
+                @if(Auth::user()->id == $post->user_id)
+                  <a href="{{ route('author.comments.edit', $comment->id) }}" class="btn btn-xs btn-primary">
+                    <span class="glyphicon glyphicon-pencil"></span>
+                  </a>
+                  <a href="{{ route('author.comments.delete', $comment->id) }}" class="btn btn-xs btn-danger">
+                    <span class="glyphicon glyphicon-trash"></span>
+                  </a>
+                @endif
+              </td>
+            </tr>
+          @endforeach
         </tbody>
       </table>
-    </div> <!-- backend-comments --> --}}
+    </div> <!-- backend-comments -->
   </div> <!-- col -->
 
-  {{-- <div class="col-md-4 col-md-offset-1">
+  <div class="col-md-4 col-md-offset-1">
     <div class="well">
 
-      <dl class="dl-horizontal">
+      {{-- <dl class="dl-horizontal">
         <label>Url:</label>
         <p><a href=" {{ url('blog/' . $post->slug) }}">
                       {{ url('blog/' . $post->slug) }}</a></p>
-      </dl>
+      </dl> --}}
 
       <dl class="dl-horizontal">
         <label>Category:</label>
@@ -78,29 +90,61 @@
 
       <div class="row">
         <div class="col-sm-6">
-          {!! Html::linkRoute('posts.edit', 'Edit Post',
-                    array($post->id),
-                    array('class' => 'btn btn-primary btn-block')) !!}
+          @if(Auth::user()->id == $post->user_id)
+            {!! Html::linkRoute('author.posts.edit', 'Edit Post',
+                      array($post->id),
+                      array('class' => 'btn btn-primary btn-block')) !!}
+
+          @endif
         </div> <!-- col -->
 
         <div class="col-sm-6">
-          {!! Form::open(['route' => ['posts.destroy', $post->id],
-                          'method' => 'DELETE']) !!}
-          {!! Form::submit('Delete Post',
-                          ['class' => 'btn btn-danger btn-block']) !!}
-          {!! Form::close() !!}
+          @if(Auth::user()->id == $post->user_id)
+            {!! Form::open(['route' => ['author.posts.destroy', $post->id],
+                            'method' => 'DELETE']) !!}
+            {!! Form::submit('Delete Post',
+                            ['class' => 'btn btn-danger btn-block']) !!}
+            {!! Form::close() !!}
+
+          @endif
         </div> <!-- col -->
       </div> <!-- row -->
 
       <div class="row">
         <div class="col-md-12">
-          {{ Html::linkRoute('posts.index', '<< See All Posts', [],
+          {{ Html::linkRoute('author.posts.index', '<< See All Posts', [],
                             ['class' => 'btn btn-default btn-block btn-h1-spacing']) }}
         </div> <!-- col -->
       </div> <!-- row -->
 
-    </div> <!-- well --> --}}
-  {{-- </div> <!-- col --> --}}
+    </div> <!-- well -->
+  </div> <!-- col -->
 </div> <!-- row -->
+<br>
+<br>
+<br>
+
+<div class="row">
+  <div id="comment-form" class="col-md-5 col-md-offset-1">
+    {{ Form::open(['route' => ['author.comments.store', $post->id, $user->id],
+                   'method' => 'POST']) }}
+        {{-- {{ Form::label('name', 'Name:') }}
+        {{ Form::text('name', null, ['class' => 'form-control']) }} --}}
+        {{-- {{ Form::label('email', 'Email:') }}
+        {{ Form::text('email', null, ['class' => 'form-control']) }} --}}
+        {{ Form::label('comment', 'Comment:', ['class' => 'form-spacing-top']) }}
+        {{ Form::textarea('comment', null, [
+                          'class' => 'form-control',
+                          'rows'  => '5']) }}
+
+        {{ Form::submit('Add Comment', [
+                        'class' => 'btn btn-success btn-block']) }}
+
+    {{ Form::close() }}
+  </div> <!-- comment form -->
+</div> <!-- row -->
+
+
+
 
 @endsection

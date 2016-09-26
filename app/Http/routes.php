@@ -49,4 +49,17 @@ Route::group(['middleware' => 'admin'], function(){
 Route::group(['middleware' => 'author'], function(){
   Route::resource('author/posts', 'AuthorPostsController');
   Route::resource('author/categories', 'AuthorCategoriesController');
+  Route::resource('author/tags', 'AuthorTagsController');
+  Route::resource('author/media', 'AuthorMediasController');
+  Route::post('author/comments/{post_id}', ['uses' => 'AuthorCommentsController@store',
+                                   'as' => 'author.comments.store']);
+  Route::get('author/comments/{id}/edit', ['uses' => 'AuthorCommentsController@edit',
+                                    'as' => 'author.comments.edit']);
+  Route::put('author/comments/{id}', ['uses' => 'AuthorCommentsController@update',
+                        'as' => 'author.comments.update']);
+  Route::delete('author/comments/{id}', ['uses' => 'AuthorCommentsController@destroy',
+                                    'as' => 'author.comments.destroy']);
+  Route::get('author/comments/{id}/delete', ['uses'=> 'AuthorCommentsController@delete',
+                                  'as' => 'author.comments.delete']);
+
 });
