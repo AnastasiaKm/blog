@@ -10,6 +10,7 @@ use App\Http\Requests;
 use App\Post;
 use Auth;
 use App\Photo;
+use App\User;
 use App\Category;
 use App\Tag;
 use Session;
@@ -108,9 +109,18 @@ class AdminPostsController extends Controller
     public function show($id)
     {
       $post = Post::find($id);
+      foreach ($post->comments as $comment) {
+        $user_id = $comment->user_id;
+        $comment_owner = User::findOrFail($user_id);
+        $photos = Photo::lists('id', 'file')->where('id', '=', "$comment_owner->photo_id");
+        // $comment_owner_photo_id = $comment_owner->photo_id;
+        // $comment_owner_photo = Photo::findOrFail($comment_owner_photo_id);
+        // $owner_photo = [$comment_owner_photo];
+      }
+      // return dd($owner_photo);
       $user = Auth::user();
-      return view('admin.posts.show')->with('post', $post)->with('user', $user);
-
+      return view('admin.posts.show')->with('post', $post)->with('user', $user)
+                                     ->with('photos', $photos);
     }
 
     /**

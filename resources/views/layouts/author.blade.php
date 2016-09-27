@@ -125,6 +125,20 @@
                     </li>
 
                     <li>
+                        <a href="#"><i class="fa fa-wrench fa-fw"></i> Tags<span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a href="{{ route('author.tags.index') }}">All Tags</a>
+                            </li>
+                            {{-- <li>
+                                <a href="{{ route('admin.categories.create') }}">Create Category</a>
+                            </li> --}}
+                        </ul>
+                        <!-- /.nav-second-level -->
+                    </li>
+
+
+                    <li>
                         <a href="#"><i class="fa fa-wrench fa-fw"></i> Media<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li>
@@ -137,7 +151,7 @@
                         <!-- /.nav-second-level -->
                     </li>
 
-                    <li>
+                    {{-- <li>
                         <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Charts<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li>
@@ -219,8 +233,8 @@
                                 <a href="login.html">Login Page</a>
                             </li>
                         </ul>
-                        <!-- /.nav-second-level -->
-                    </li>
+                        <!-- /.nav-second-level --> --}}
+                    {{-- </li> --}}
                 </ul>
             </div>
             <!-- /.sidebar-collapse -->

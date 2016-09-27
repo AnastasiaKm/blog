@@ -9,6 +9,7 @@ use Auth;
 use App\Photo;
 use App\Category;
 use App\Tag;
+use App\User;
 use Session;
 // use Purifier;
 use Image;
@@ -110,7 +111,7 @@ class AuthorPostsController extends Controller
       $post = Post::find($id);
       $user = Auth::user();
       return view('author.posts.show')->with('post', $post)->with('user', $user);
-
+                                      ->with('comment', $comment);
     }
 
     /**

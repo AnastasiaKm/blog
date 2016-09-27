@@ -45,9 +45,10 @@ class CreateUsersTable extends Migration
 
         Schema::table('users', function(Blueprint $table) {
           $table->foreign('role_id')->references('id')->on('roles')
-                ->onDelete('cascade')->onUpdate('cascade');
+                ->onDelete('cascade');
           $table->foreign('photo_id')->references('id')->on('photos')
-                ->onDelete('cascade')->onUpdate('cascade');
+                ->onDelete('cascade');
+
         });
 
         Schema::create('posts', function (Blueprint $table){
@@ -76,18 +77,18 @@ class CreateUsersTable extends Migration
 
         Schema::table('posts', function(Blueprint $table) {
           $table->foreign('user_id')->references('id')->on('users')
-                ->onDelete('cascade')->onUpdate('cascade');
+                ->onDelete('cascade');
           $table->foreign('category_id')->references('id')->on('categories')
-                ->onDelete('cascade')->onUpdate('cascade');
+                ->onDelete('cascade');
           $table->foreign('photo_id')->references('id')->on('photos')
-                ->onDelete('cascade')->onUpdate('cascade');
+                ->onDelete('cascade');
         });
 
         Schema::table('post_tag', function(Blueprint $table) {
           $table->foreign('post_id')->references('id')->on('posts')
-                ->onDelete('cascade')->onUpdate('cascade');
+                ->onDelete('cascade');
           $table->foreign('tag_id')->references('id')->on('tags')
-                ->onDelete('cascade')->onUpdate('cascade');
+                ->onDelete('cascade');
         });
 
         Schema::create('comments', function (Blueprint $table){
@@ -102,9 +103,9 @@ class CreateUsersTable extends Migration
 
         Schema::table('comments', function(Blueprint $table) {
           $table->foreign('post_id')->references('id')->on('posts')
-                ->onDelete('cascade')->onUpdate('cascade');
+                ->onDelete('cascade');
           $table->foreign('user_id')->references('id')->on('users')
-                ->onDelete('cascade')->onUpdate('cascade');
+                ->onDelete('cascade');
         });
 
     }

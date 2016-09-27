@@ -29,7 +29,6 @@
       <table class="table">
         <thead>
           <tr>
-            <th>Id</th>
             <th>Name</th>
             <th>Created at</th>
             <th>Updated at</th>
@@ -38,7 +37,7 @@
         <tbody>
             @foreach($categories as $category)
               <tr>
-                <td>{{ $category->id }}</td>
+                {{-- <td><a href="{{ route('author.categories.edit', $category->id) }}">{{ $category->name }}</a></td> --}}
                 <td>{{ $category->name }}</td>
                 <td>{{ $category->created_at ? $category->created_at->diffForHumans() : 'no date' }}</td>
                 <td>{{ $category->updated_at ? $category->updated_at->diffForHumans() : 'no date' }}</td>
@@ -47,6 +46,11 @@
           </tbody>
         </table>
       @endif
+  </div>
+  <div class="col-sm-8 col-sm-offset-4">
+    <div class="text-center">
+      {!! $categories->links(); !!}
+    </div> <!-- text center -->
   </div>
 
 

@@ -10,6 +10,7 @@ use App\User;
 use App\Role;
 use App\Photo;
 use Session;
+use File;
 
 class AdminUsersController extends Controller
 {
@@ -45,22 +46,19 @@ class AdminUsersController extends Controller
     public function store(UsersRequest $request)
     {
 
-        // if (trim($request->password) == '') {
-        //   $input = $request->except('password');
-        // } else {
-        //   $input = $request->all();
-        // }
-        //
         $input = $request->all();
+
+        $name = 'default_avatar.tif';
 
         if ($file = $request->file('photo_id')) {
           $name = 'post_photo' . '_' . time() . '.' . $file -> getClientOriginalExtension();
 
           $file->move('images', $name);
-          $photo = Photo::create(['file' => $name]);
-
-          $input['photo_id'] = $photo->id;
         }
+
+        $photo = Photo::create(['file' => $name]);
+
+        $input['photo_id'] = $photo->id;
 
         $input['password'] = bcrypt($request->password);
         User::create($input);
@@ -90,8 +88,10 @@ class AdminUsersController extends Controller
     public function edit($id)
     {
       $user = User::findOrFail($id);
+      $user_photo_id = $user->photo_id;
       $roles = Role::lists('name', 'id')->all();
-      return view('admin.users.edit')->with('user', $user)->with('roles', $roles);
+      $photo = Photo::findOrFail($user_photo_id);
+      return view('admin.users.edit')->with('user', $user)->with('roles', $roles)->with('photo', $photo);
     }
 
     /**
@@ -104,18 +104,21 @@ class AdminUsersController extends Controller
     public function update(Request $request, $id)
     {
         $user = User::findOrFail($id);
-          $this->validate($request, array(
-            'name'          => 'required',
-            'email'         => 'required',
-            'role_id'       => 'required',
-            'is_active'    =>'required'
-          ));
+        $this->validate($request, array(
+          'name'          => 'required',
+          'email'         => 'required',
+          'role_id'       => 'required',
+          'is_active'    =>'required'
+        ));
 
-        $user -> name = $request -> input('name');
-        $user -> email = $request -> input('email');
-        $user -> role_id = $request -> input('role_id');
-        $user -> is_active = $request -> input('is_active');
-        $oldpsw= $user ->password;
+        $oldfile = $user->file;
+        $old_photo_id = $user->photo_id;
+
+        $user->name = $request->input('name');
+        $user->email = $request->input('email');
+        $user->role_id = $request->input('role_id');
+        $user->is_active = $request->input('is_active');
+        $oldpsw= $user->password;
         if (trim($request->password)=='') {
           $user->password = $oldpsw;
         } else {
@@ -150,6 +153,13 @@ class AdminUsersController extends Controller
           // $input['photo_id'] = $photo->id;
           $photo_id=$photo->id;
           $user->photo_id=$photo_id;
+          if($oldfile == 'default_avatar.tif') {
+
+          } else {
+            $photo_to_delete = Photo::findOrFail($old_photo_id);
+            $photo_to_delete->delete();
+            File::delete(public_path() . $oldfile);
+          }
         }
         // **********************************************
 
@@ -172,9 +182,13 @@ class AdminUsersController extends Controller
     public function destroy($id)
     {
         $user = User::findOrFail($id);
-        unlink(public_path() . $user->photo->file);
-
+        $file = $user->photo->file;
+        if ($file == 'default_avatar.tif') {
+          $user->delete();
+        } else{
+        unlink(public_path() . $file);
         $user->delete();
+        }
 
         Session::flash('success', 'The user has been deleted!');
 
