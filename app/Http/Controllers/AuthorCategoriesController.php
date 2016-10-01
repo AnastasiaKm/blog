@@ -31,6 +31,9 @@ class AuthorCategoriesController extends Controller
      */
     public function store(Request $request)
     {
+      $this->validate($request, array(
+        'name' => 'required|max:255'
+      ));
       Category::create($request->all());
       Session::flash('success', 'The category has been added!');
       return redirect()->route('author.categories.index');
@@ -69,6 +72,9 @@ class AuthorCategoriesController extends Controller
      */
     public function update(Request $request, $id)
     {
+      $this->validate($request, array(
+        'name' => 'required|max:255'
+      ));
       $category = Category::findOrFail($id);
       $category->update($request->all());
       Session::flash('success', 'The category has been updated!');
