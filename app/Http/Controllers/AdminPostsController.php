@@ -71,17 +71,18 @@ class AdminPostsController extends Controller
       $post->body = $request->body;
       $post->category_id = $request->category_id;
 
-      if ($file= $request -> file('photo_id')) {
-        $name = 'post_photo' . '_' . time() . '.' . $file -> getClientOriginalExtension();
+      if ($file= $request->file('photo_id')) {
+        $filename = 'post_photo' . '_' . time() . '.' . $file -> getClientOriginalExtension();
+        Image::make($file)->resize(300,200)->save(public_path('images/' . $filename));
 
         // $filename = 'post_photo' . time() . '.' . $image->getClientOriginalExtension();
         // $location = public_path('images/' . $filename);
 
-         $file->move('images', $name);
+        //  $file->move('images', $name);
         // Storage::putFileAs('images', new File('/path/to/photo'), "$name");
         // Inserts the photo to the photos table
         $photo = new Photo;
-        $photo = Photo::create(['file' => $name]);
+        $photo = Photo::create(['file' => $filename]);
         // Inserts the photo_id key to the Posts Table
         // $input['photo_id'] = $photo->id;
         $post['photo_id'] = $photo->id;
@@ -109,19 +110,20 @@ class AdminPostsController extends Controller
     public function show($id)
     {
       $post = Post::find($id);
+      $user = Auth::user();
+      $photo = Photo::findOrFail($post->photo_id);
+      $photos = array();
       foreach ($post->comments as $comment) {
         $user_id = $comment->user_id;
-        $comment_owner = User::findOrFail($user_id);
-        $photos = Photo::lists('id', 'file')->where('id', '=', "$comment_owner->photo_id");
-        // $comment_owner_photo_id = $comment_owner->photo_id;
-        // $comment_owner_photo = Photo::findOrFail($comment_owner_photo_id);
-        // $owner_photo = [$comment_owner_photo];
+        $comment_user = User::findOrFail($user_id);
+        $avatar = $comment_user->avatar;
+        $photos[$comment->id] = $comment_user->avatar;
+
       }
-      // return dd($owner_photo);
-      $user = Auth::user();
-      return view('admin.posts.show')->with('post', $post)->with('user', $user)
-                                     ->with('photos', $photos);
-    }
+
+    return view('admin.posts.show')->with('post', $post)->with('photo', $photo)->with('user', $user)
+                                  ->with('photos', $photos);
+   }
 
     /**
      * Show the form for editing the specified resource.
@@ -162,7 +164,6 @@ class AdminPostsController extends Controller
           'category_id' => 'required',
           'body' => 'required'
         ));
-        $post = Post::findOrFail($id);
         $post->title = $request->input('title');
         $post->category_id = $request->input('category_id');
         $post->body = $request->input('body');
@@ -171,11 +172,12 @@ class AdminPostsController extends Controller
 
         if ($file = $request->file('photo_id')) {
 
-          $name = 'post_photo' . '_' . time() . '.' . $file -> getClientOriginalExtension();
+          $filename = 'post_photo' . '_' . time() . '.' . $file -> getClientOriginalExtension();
+          Image::make($file)->resize(300,200)->save(public_path('images/' . $filename));
 
-          $file->move('images', $name);
+          // $file->move('images', $name);
 
-          $photo = Photo::create(['file' => $name]);
+          $photo = Photo::create(['file' => $filename]);
 
           // $input['photo_id'] = $photo->id;
           $photo_id=$photo->id;
@@ -206,9 +208,14 @@ class AdminPostsController extends Controller
     public function destroy($id)
     {
       $post = Post::findOrFail($id);
-      unlink(public_path() . $post->photo->file);
+      $photo_id = $post->photo_id;
+      if ($photo_id) {
+        unlink(public_path() . $post->photo->file);
+        $post->delete();
+      } else {
+        $post->delete();
+      }
 
-      $post->delete();
 
       Session::flash('success', 'The post has been deleted!');
 

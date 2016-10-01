@@ -11,6 +11,7 @@ use App\Role;
 use App\Photo;
 use Session;
 use File;
+use Image;
 
 class AdminUsersController extends Controller
 {
@@ -48,17 +49,13 @@ class AdminUsersController extends Controller
 
         $input = $request->all();
 
-        $name = 'default_avatar.tif';
+        $filename = 'default_avatar.tif';
 
-        if ($file = $request->file('photo_id')) {
-          $name = 'post_photo' . '_' . time() . '.' . $file -> getClientOriginalExtension();
-
-          $file->move('images', $name);
+        if ($avatar = $request->file('avatar')) {
+          $filename = time() . '.' . $avatar -> getClientOriginalExtension();
+          Image::make($avatar)->resize(150,150)->save(public_path('images/' . $filename));
+          $user->avatar=$filename;
         }
-
-        $photo = Photo::create(['file' => $name]);
-
-        $input['photo_id'] = $photo->id;
 
         $input['password'] = bcrypt($request->password);
         User::create($input);
@@ -88,10 +85,8 @@ class AdminUsersController extends Controller
     public function edit($id)
     {
       $user = User::findOrFail($id);
-      $user_photo_id = $user->photo_id;
       $roles = Role::lists('name', 'id')->all();
-      $photo = Photo::findOrFail($user_photo_id);
-      return view('admin.users.edit')->with('user', $user)->with('roles', $roles)->with('photo', $photo);
+      return view('admin.users.edit')->with('user', $user)->with('roles', $roles);
     }
 
     /**
@@ -111,8 +106,7 @@ class AdminUsersController extends Controller
           'is_active'    =>'required'
         ));
 
-        $oldfile = $user->file;
-        $old_photo_id = $user->photo_id;
+        $oldfile = $user->avatar;
 
         $user->name = $request->input('name');
         $user->email = $request->input('email');
@@ -145,20 +139,15 @@ class AdminUsersController extends Controller
 
 
         // *****************************************
-        if ($file = $request->file('photo_id')) {
-          $name = 'post_photo' . '_' . time() . '.' . $file -> getClientOriginalExtension();
-          $file->move('images', $name);
+        if ($avatar = $request->file('avatar')) {
+          $filename = time() . '.' . $avatar -> getClientOriginalExtension();
+          Image::make($avatar)->resize(150,150)->save(public_path('images/' . $filename));
+          $user->avatar=$filename;
 
-          $photo = Photo::create(['file' => $name]);
-          // $input['photo_id'] = $photo->id;
-          $photo_id=$photo->id;
-          $user->photo_id=$photo_id;
           if($oldfile == 'default_avatar.tif') {
 
           } else {
-            $photo_to_delete = Photo::findOrFail($old_photo_id);
-            $photo_to_delete->delete();
-            File::delete(public_path() . $oldfile);
+            File::delete($oldfile);
           }
         }
         // **********************************************
@@ -182,11 +171,11 @@ class AdminUsersController extends Controller
     public function destroy($id)
     {
         $user = User::findOrFail($id);
-        $file = $user->photo->file;
-        if ($file == 'default_avatar.tif') {
+        $avatar = $user->avatar;
+        if ($avatar == 'default_avatar.tif') {
           $user->delete();
         } else{
-        unlink(public_path() . $file);
+        unlink(public_path('images/' . $avatar));
         $user->delete();
         }
 

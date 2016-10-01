@@ -5,8 +5,9 @@
 
 <div class="row">
   <div class="col-md-6 col-md-offset-1">
-    @if(isset($post->image))
-      <img src="{{ asset('images/' . $post->image) }}" class="img-responsive center-block">
+    @if(isset($post->photo_id))
+      {{-- <img src="{{ asset('images/' . $post->image) }}" class="img-responsive center-block"> --}}
+      <img src="{{ $photo->file }}" class="img-responsive" style="width:300px; height:200px;">
     @endif
     <h1>{{ $post->title }}</h1>
 
@@ -58,32 +59,33 @@
         </tbody>
       </table> --}}
       @foreach($post->comments as $comment)
+        <?php $avatar = $photos[$comment->id] ?>
         <div class="comment" style="margin-bottom: 45px;">
           <div class="author-info">
-              @if($photos->file)
-                <img src="{{ $photos->file }}"
-                class="author-image" style="width: 50px;
-                height: 50px; border-radius: 50%; float: left;">
-                <div class="author-name" style="float: left;
-                margin-left: 15px;">
-              @else
-                <img src="/images/default_avatar.tif"
-                class="author-image" style="width: 40px;
-                height: 40px; border-radius: 50%; float: left;">
-                <div class="author-name" style="float: left;
-                margin-left: 15px;">
-              @endif
+              <img src="/images/{{ $avatar }}"
+              class="author-image" style="width: 50px;
+              height: 50px; border-radius: 50%; float: left;">
+              <div class="author-name" style="float: left;
+              margin-left: 15px;">
               <p class="form-control-static" value="{{ $comment->user_id }}">{{ $comment->user->name }}</p>
               <p class="author-time" style="font-size: 11px;
-              font-style: italic; color: #aaa;">
+              margin-top: -9px; font-style: italic; color: #aaa;">
                 {{ $comment->created_at ? $comment->created_at->diffForHumans() : "no date" }}
               </p>
-            </div> <!-- author-name -->
-          </div> <!-- author-info -->
+              </div> <!-- author-name -->
+            </div> <!-- author-info -->
           <div class="comment-content" style="clear: both;
            font-size: 12px; line-height: 1.3em;">
             {{ $comment->comment }}
           </div> <!-- comment-content -->
+          <br>
+          <a href="{{ route('admin.comments.edit', $comment->id) }}" class="btn btn-xs btn-primary">
+            <span class="glyphicon glyphicon-pencil"></span>
+          </a>
+          <a href="{{ route('admin.comments.delete', $comment->id) }}" class="btn btn-xs btn-danger">
+            <span class="glyphicon glyphicon-trash"></span>
+          </a>
+
           <hr>
         </div> <!-- comment -->
     @endforeach

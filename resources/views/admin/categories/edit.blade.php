@@ -16,13 +16,13 @@
       {{ Form::submit('Update Category', ['class' => 'btn btn-primary col-sm-6']) }}
     </div>
 
+    {!! Html::linkRoute('admin.categories.index', 'Cancel',
+          array($category->id),
+          array('class' => 'btn btn-danger btn-block')) !!}
+
+
     {!! Form::close() !!}
 
-    {!! Form::open(['method' => 'DELETE', 'action' => ['AdminCategoriesController@destroy', $category->id]]) !!}
-    <div class="form-group">
-      {{ Form::submit('Delete Category', ['class' => 'btn btn-danger col-sm-6']) }}
-    </div>
-    {!! Form::close() !!}
 
   </div>
 

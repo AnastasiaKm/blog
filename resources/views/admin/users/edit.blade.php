@@ -6,7 +6,7 @@
   <div class="row">
     <div class="col-sm-3">
       <img class="img-responsive img-rounded"
-      src="{{ $user->photo ? $user->photo->file : 'http://placehold.it/400x400' }}" />
+      src="/images/{{ $user->avatar }}" />
 
     </div>
 
@@ -38,8 +38,8 @@
       </div>
 
       <div class="form-group">
-        {{ Form::label('photo_id', 'Photo:') }}
-        {{ Form::file('photo_id', null, ['class' => 'form-control']) }}
+        {{ Form::label('avatar', 'Photo:') }}
+        {{ Form::file('avatar', null, ['class' => 'form-control']) }}
       </div>
 
       <div class="form-group">

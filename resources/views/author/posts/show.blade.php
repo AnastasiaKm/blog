@@ -5,8 +5,9 @@
 
 <div class="row">
   <div class="col-md-6 col-md-offset-1">
-    @if(isset($post->image))
-      <img src="{{ asset('images/' . $post->image) }}" class="img-responsive center-block">
+    @if(isset($post->photo_id))
+      {{-- <img src="{{ asset('images/' . $post->image) }}" class="img-responsive center-block"> --}}
+      <img src="{{ $photo->file }}" class="img-responsive" style="width:300px; height:200px;>
     @endif
     <h1>{{ $post->title }}</h1>
 
@@ -25,7 +26,7 @@
         {{ $post->comments()->count() }} Comments
       </h3>
 
-      <table class="table">
+      {{-- <table class="table">
         <thead>
           <tr>
             <th>Name</th>
@@ -58,7 +59,41 @@
             </tr>
           @endforeach
         </tbody>
-      </table>
+      </table> --}}
+      @foreach($post->comments as $comment)
+        <?php $avatar = $photos[$comment->id] ?>
+        <div class="comment" style="margin-bottom: 45px;">
+          <div class="author-info">
+              <img src="/images/{{ $avatar }}"
+              class="author-image" style="width: 50px;
+              height: 50px; border-radius: 50%; float: left;">
+              <div class="author-name" style="float: left;
+              margin-left: 15px;">
+              <p class="form-control-static" value="{{ $comment->user_id }}">{{ $comment->user->name }}</p>
+              <p class="author-time" style="font-size: 11px;
+              margin-top: -9px; font-style: italic; color: #aaa;">
+                {{ $comment->created_at ? $comment->created_at->diffForHumans() : "no date" }}
+              </p>
+              </div> <!-- author-name -->
+            </div> <!-- author-info -->
+          <div class="comment-content" style="clear: both;
+           font-size: 12px; line-height: 1.3em;">
+            {{ $comment->comment }}
+          </div> <!-- comment-content -->
+          <br>
+          @if(Auth::user()->id == $comment->user_id)
+            <a href="{{ route('author.comments.edit', $comment->id) }}" class="btn btn-xs btn-primary">
+              <span class="glyphicon glyphicon-pencil"></span>
+            </a>
+            <a href="{{ route('author.comments.delete', $comment->id) }}" class="btn btn-xs btn-danger">
+              <span class="glyphicon glyphicon-trash"></span>
+            </a>
+          @endif
+
+          <hr>
+        </div> <!-- comment -->
+    @endforeach
+
     </div> <!-- backend-comments -->
   </div> <!-- col -->
 

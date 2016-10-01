@@ -13,17 +13,18 @@
         {{ Form::text('name', null, ['class' => 'form-control']) }}
       </div>
 
-      <div class="form-group">
+      {{-- <div class="form-group">
         {{ Form::submit('Update Category', ['class' => 'btn btn-primary col-sm-6']) }}
-      </div>
+      </div> --}}
+
+      {!! Html::linkRoute('author.categories.index', 'Cancel',
+            array($category->id),
+            array('class' => 'btn btn-danger btn-block')) !!}
+
+
 
       {!! Form::close() !!}
 
-      {!! Form::open(['method' => 'DELETE', 'action' => ['AuthorCategoriesController@destroy', $category->id]]) !!}
-      <div class="form-group">
-        {{ Form::submit('Delete Category', ['class' => 'btn btn-danger col-sm-6']) }}
-      </div>
-      {!! Form::close() !!}
 
 
   </div>

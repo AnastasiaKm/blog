@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Category;
+use App\Post;
 use Session;
 
 class AdminCategoriesController extends Controller

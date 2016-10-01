@@ -92,13 +92,13 @@ class AuthorMediasController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
-    {
-      $photo = Photo::findOrFail($id);
-      unlink(public_path() . $photo->file);
-      $photo->delete();
-      Session::flash('success', 'The photo has been deleted!');
-      return redirect()->route('author.media.index');
-
-    }
+    // public function destroy($id)
+    // {
+    //   $photo = Photo::findOrFail($id);
+    //   unlink(public_path() . $photo->file);
+    //   $photo->delete();
+    //   Session::flash('success', 'The photo has been deleted!');
+    //   return redirect()->route('author.media.index');
+    //
+    // }
 }

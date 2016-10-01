@@ -15,8 +15,12 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+// Route::get('profile', 'UserController@profile');
+// Route::get('admin/profile', 'UserController@profile');
+
 
 Route::auth();
+
 
 Route::get('/home', 'HomeController@index');
 
@@ -45,6 +49,7 @@ Route::group(['middleware' => 'admin'], function(){
   Route::get('admin/comments/{id}/delete', ['uses'=> 'AdminCommentsController@delete',
                                   'as' => 'admin.comments.delete']);
 
+
 });
 
 Route::group(['middleware' => 'author'], function(){
@@ -62,5 +67,15 @@ Route::group(['middleware' => 'author'], function(){
                                     'as' => 'author.comments.destroy']);
   Route::get('author/comments/{id}/delete', ['uses'=> 'AuthorCommentsController@delete',
                                   'as' => 'author.comments.delete']);
+  // Route::get('profile/index/{id}/{photo}', function(){
+  //   view('author.profile.index');
+  // });
+  //
+  // Route::get('profile/{id}/edit', ['uses'=> 'UserController@edit',
+  //                                 'as' => 'author.profile.edit']);
+  // Route::post('profile/index/{id}', ['uses'=> 'UserController@update_image',
+  //                                 'as' => 'author.profile.update']);
+  Route::resource('author/profile', 'AuthorController');
+
 
 });

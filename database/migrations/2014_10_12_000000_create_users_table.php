@@ -106,6 +106,7 @@ class CreateUsersTable extends Migration
                 ->onDelete('cascade');
           $table->foreign('user_id')->references('id')->on('users')
                 ->onDelete('cascade');
+
         });
 
     }

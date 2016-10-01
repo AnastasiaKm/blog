@@ -10,7 +10,7 @@
                 <div class="panel-body">
                     Welcome to my blog. Choose your role!
                     <a href="{{ url('/admin') }}">Admin, </a>
-                    <a href="{{ url('/author') }}">Author</a
+                    <a href="{{ url('/author') }}">Author</a>
                 </div>
             </div>
         </div>

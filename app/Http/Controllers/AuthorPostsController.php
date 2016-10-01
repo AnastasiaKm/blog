@@ -110,8 +110,16 @@ class AuthorPostsController extends Controller
     {
       $post = Post::find($id);
       $user = Auth::user();
-      return view('author.posts.show')->with('post', $post)->with('user', $user);
-                                      ->with('comment', $comment);
+      $photo = Photo::findOrFail($post->photo_id);
+      $photos = array();
+      foreach ($post->comments as $comment) {
+        $user_id = $comment->user_id;
+        $comment_user = User::findOrFail($user_id);
+        $avatar = $comment_user->avatar;
+        $photos[$comment->id] = $comment_user->avatar;
+      }
+      return view('author.posts.show')->with('post', $post)->with('photo', $photo)->with('user', $user)->with('photos', $photos);
+
     }
 
     /**
@@ -198,9 +206,13 @@ class AuthorPostsController extends Controller
     public function destroy($id)
     {
       $post = Post::findOrFail($id);
-      unlink(public_path() . $post->photo->file);
-
-      $post->delete();
+      $photo_id = $post->photo_id;
+      if ($photo_id) {
+        unlink(public_path() . $post->photo->file);
+        $post->delete();
+      } else {
+        $post->delete();
+      }
 
       Session::flash('success', 'The post has been deleted!');
 

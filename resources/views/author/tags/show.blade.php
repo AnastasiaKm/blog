@@ -5,6 +5,10 @@
     <div class="col-md-6 col-md-offset-1">
       <h1>{{ $tag->name }} Tag <small>{{ $tag->posts()->count() }} Posts</small></h1>
     </div> <!-- col -->
+    <div class="col-md-4">
+      {!! Html::linkRoute('author.tags.index', 'Cancel',
+          array($tag->id),
+          array('class' => 'btn btn-danger btn-block')) !!}
     {{-- <div class="col-md-2">
       <a href="{{ route('admin.tags.edit', $tag->id) }}" class="btn btn-primary pull-right btn-block"
       style="margin-top:20px;">Edit</a>
@@ -14,8 +18,8 @@
                        'method' => 'DELETE']) !!}
       {!! Form::submit('Delete', ['class' => 'btn btn-danger btn-block',
                                   'style' => 'margin-top:20px;']) !!}
-      {!! Form::close() !!}
-    </div> --}}
+      {!! Form::close() !!} --}}
+    </div>
   </div> <!-- row -->
 
   <div class="row">
