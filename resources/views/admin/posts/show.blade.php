@@ -5,6 +5,7 @@
 
 <div class="row">
   <div class="col-md-6 col-md-offset-1">
+    {{ $post->photo_id }}
     @if(isset($post->photo_id))
       {{-- <img src="{{ asset('images/' . $post->image) }}" class="img-responsive center-block"> --}}
       <img src="{{ $photo->file }}" class="img-responsive" style="width:300px; height:200px;">

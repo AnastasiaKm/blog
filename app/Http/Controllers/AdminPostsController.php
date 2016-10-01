@@ -111,7 +111,11 @@ class AdminPostsController extends Controller
     {
       $post = Post::find($id);
       $user = Auth::user();
-      $photo = Photo::findOrFail($post->photo_id);
+      if ($post->photo_id) {
+        $photo = Photo::findOrFail($post->photo_id);
+      } else {
+        $photo = "";
+      }
       $photos = array();
       foreach ($post->comments as $comment) {
         $user_id = $comment->user_id;
