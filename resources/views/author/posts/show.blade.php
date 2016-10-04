@@ -7,7 +7,7 @@
   <div class="col-md-6 col-md-offset-1">
     @if(isset($post->photo_id))
       {{-- <img src="{{ asset('images/' . $post->image) }}" class="img-responsive center-block"> --}}
-      <img src="{{ $photo->file }}" class="img-responsive" style="width:300px; height:200px;>
+      <img src="{{ $photo->file }}" class="img-responsive" style="width:300px; height:200px;">
     @endif
     <h1>{{ $post->title }}</h1>
 
@@ -26,40 +26,6 @@
         {{ $post->comments()->count() }} Comments
       </h3>
 
-      {{-- <table class="table">
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Comment</th>
-            <th>Created</th>
-            <th width="70px;"></th>
-          </tr>
-        </thead>
-        <tbody>
-          @foreach($post->comments as $comment)
-            <tr>
-              <td>
-                  <input class="form-control" type="text"
-                  placeholder="{{ $comment->user_id }}"
-                  value="{{ $comment->user->name }}"
-                  readonly="">
-              </td>
-              <td>{{ $comment->comment }}</td>
-              <td>{{ $comment->created_at ? $comment->created_at->diffForHumans() : "no date" }}</td>
-              <td>
-                @if(Auth::user()->id == $comment->user_id)
-                  <a href="{{ route('author.comments.edit', $comment->id) }}" class="btn btn-xs btn-primary">
-                    <span class="glyphicon glyphicon-pencil"></span>
-                  </a>
-                  <a href="{{ route('author.comments.delete', $comment->id) }}" class="btn btn-xs btn-danger">
-                    <span class="glyphicon glyphicon-trash"></span>
-                  </a>
-                @endif
-              </td>
-            </tr>
-          @endforeach
-        </tbody>
-      </table> --}}
       @foreach($post->comments as $comment)
         <?php $avatar = $photos[$comment->id] ?>
         <div class="comment" style="margin-bottom: 45px;">
@@ -167,7 +133,7 @@
         {{ Form::text('name', null, ['class' => 'form-control']) }} --}}
         {{-- {{ Form::label('email', 'Email:') }}
         {{ Form::text('email', null, ['class' => 'form-control']) }} --}}
-        {{ Form::label('comment', 'Comment:', ['class' => 'form-spacing-top']) }}
+        {{ Form::label('comment', 'Add Comment:', ['class' => 'form-spacing-top']) }}
         {{ Form::textarea('comment', null, [
                           'class' => 'form-control',
                           'rows'  => '5']) }}

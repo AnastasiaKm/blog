@@ -14,8 +14,8 @@
     <!-- Bootstrap Core CSS -->
     <link href="{{asset('css/app.css')}}" rel="stylesheet">
     <link href="{{asset('css/libs.css')}}" rel="stylesheet">
-
     @yield('styles')
+
 
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -32,7 +32,7 @@
 <div id="wrapper">
 
     <!-- Navigation -->
-    <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin: 0;">
+    <nav class="navbar navbar-default navbar-fixed-top" role="navigation" style="margin: 0;">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                 <span class="sr-only">Toggle navigation</span>
@@ -40,7 +40,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="index.html">Home</a>
+            <a class="navbar-brand" href="/author">Home</a>
         </div>
         <!-- /.navbar-header -->
 
@@ -83,7 +83,7 @@
                         <!-- /input-group -->
                     </li>
                     <li>
-                        <a href="/admin"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
+                        <a href="#"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
                     </li>
                     <li>
                         {{-- <a href="#"><i class="fa fa-wrench fa-fw"></i> Users<span class="fa arrow"></span></a> --}}
@@ -268,9 +268,14 @@
 
 @yield('scripts')
 
+
+
+
 @yield('footer')
-
-
 </body>
+<footer>
+  <div id="copyright text-right" class="text-center">© Copyright 2016 Karamichailidou Anastasia</div>
+
+</footer>
 
 </html>

@@ -15,11 +15,14 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+// Route::get('/', 'HomeController@welcome');
+
 // Route::get('profile', 'UserController@profile');
 // Route::get('admin/profile', 'UserController@profile');
 
 
 Route::auth();
+// Route::get('/login', 'AuthController@rights');
 
 
 Route::get('/home', 'HomeController@index');

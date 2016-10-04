@@ -30,8 +30,8 @@
 </head>
 
 <body id="admin-page">
-
 <div id="wrapper">
+
 
     <!-- Navigation -->
     <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin: 0;">
@@ -42,7 +42,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="index.html">Home</a>
+            <a class="navbar-brand" href="/admin">Home</a>
         </div>
         <!-- /.navbar-header -->
 
@@ -84,7 +84,7 @@
                         <!-- /input-group -->
                     </li>
                     <li>
-                        <a href="/admin"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
+                        <a href="#"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
                     </li>
                     <li>
                         <a href="#"><i class="fa fa-wrench fa-fw"></i> Users<span class="fa arrow"></span></a>
@@ -273,5 +273,11 @@
 
 
 </body>
+
+<footer>
+  <div id="copyright text-right" class="text-center">© Copyright 2016 Karamichailidou Anastasia</div>
+
+</footer>
+
 
 </html>

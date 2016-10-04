@@ -11,7 +11,6 @@
   <table class="table">
     <thead>
       <tr>
-        <th>Id</th>
         <th>Photo</th>
         <th>Owner</th>
         <th>Category</th>
@@ -25,7 +24,6 @@
       @if($posts)
         @foreach($posts as $post)
           <tr>
-            <td>{{ $post->id }}</td>
             <td> <img height="50" src="{{ $post->photo ? $post->photo->file : 'http://placehold.it/400x400' }}" /> </td>
             <td> <a href="{{ route('author.posts.show', $post->id) }}">{{ $post->user->name }}</a></td>
             <td>{{ $post->category ? $post->category->name : 'Uncategorized' }}</td>

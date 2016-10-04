@@ -9,7 +9,7 @@
             src="/images/{{ $user->avatar }}" />
           </div>
 
-          <div class="col-md-7 col-md-offset-1">
+          <div class="col-sm-5 ">
           <h2>{{ $user->name }}'s Profile</h2>
           {{ Form::model($user, ['route' => ['author.profile.update', $user->id],
                                     'method' => 'PUT', 'files' => true]) }}

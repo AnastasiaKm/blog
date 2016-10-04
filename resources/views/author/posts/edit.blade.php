@@ -7,8 +7,15 @@
 @section('content')
 
   <h1>Edit Post</h1>
-
   <div class="row">
+    <div class="col-md-3">
+      @if(isset($post->photo))
+        {{-- <img src="{{ asset('images/' . $post->image) }}" class="img-responsive center-block"> --}}
+        <img src="{{ $post->photo->file }}" class="img-responsive center-block">
+      @endif
+    </div>
+
+    <div class="col-md-8">
     {!! Form::model($post, ['route' => ['author.posts.update', $post->id],
                     'method' => 'PUT', 'files' => true]) !!}
 
@@ -56,6 +63,7 @@
       {{ Form::submit('Delete Post', ['class' => 'btn btn-danger col-sm-6']) }}
     </div>
     {!! Form::close() !!}
+  </div>
 
   </div> <!-- row -->
 

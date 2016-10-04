@@ -8,6 +8,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 
+use Auth;
+
 class AuthController extends Controller
 {
     /*
@@ -28,7 +30,8 @@ class AuthController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/';
+    protected $redirectTo = '/author';
+
 
     /**
      * Create a new authentication controller instance.
@@ -39,6 +42,7 @@ class AuthController extends Controller
     {
         $this->middleware($this->guestMiddleware(), ['except' => 'logout']);
     }
+
 
     /**
      * Get a validator for an incoming registration request.
