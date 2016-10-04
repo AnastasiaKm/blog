@@ -14,7 +14,7 @@ use App\User;
 use App\Category;
 use App\Tag;
 use Session;
-// use Purifier;
+use Purifier;
 use Image;
 
 
@@ -68,7 +68,7 @@ class AdminPostsController extends Controller
       $post->title = $request->title;
       $post->slug = $slug;
       $post->user_id = $user ->id;
-      $post->body = $request->body;
+      $post->body = Purifier::clean($request->body);
       $post->category_id = $request->category_id;
 
       if ($file= $request->file('photo_id')) {
@@ -170,7 +170,7 @@ class AdminPostsController extends Controller
         ));
         $post->title = $request->input('title');
         $post->category_id = $request->input('category_id');
-        $post->body = $request->input('body');
+        $post->body = Purifier::clean($request->input('body'));
 
         // $input = $request->all();
 

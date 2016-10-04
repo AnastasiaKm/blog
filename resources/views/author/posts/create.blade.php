@@ -1,11 +1,19 @@
 @extends('layouts.author')
 
-{{-- @section('styles')
-  {!! Html::style('css/libs.css') !!}
-@endsection --}}
+@section('styles')
+   <script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
+
+   <script>
+      tinymce.init({
+        selector: 'textarea',
+        plugins: 'link',
+        menubar: false
+      });
+   </script>
+@endsection
 
 @section('content')
-  
+
 
   <h1>Create Post</h1>
 

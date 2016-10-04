@@ -1,6 +1,18 @@
 
 @extends('layouts.admin')
 
+@section('styles')
+   <script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
+
+   <script>
+      tinymce.init({
+        selector: 'textarea',
+        plugins: 'link',
+        menubar: false
+      });
+   </script>
+@endsection
+
 @section('content')
 
 <div class="row">
@@ -76,7 +88,7 @@
             </div> <!-- author-info -->
           <div class="comment-content" style="clear: both;
            font-size: 12px; line-height: 1.3em;">
-            {{ $comment->comment }}
+            {!! $comment->comment !!}
           </div> <!-- comment-content -->
           <br>
           <a href="{{ route('admin.comments.edit', $comment->id) }}" class="btn btn-xs btn-primary">

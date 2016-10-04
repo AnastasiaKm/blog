@@ -1,5 +1,17 @@
 @extends('layouts.admin')
 
+@section('styles')
+   <script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
+
+   <script>
+      tinymce.init({
+        selector: 'textarea',
+        plugins: 'link',
+        menubar: false
+      });
+   </script>
+@endsection
+
 @section('content')
   <div class="row">
     <div class="col-md-8 col-md-offset-2">

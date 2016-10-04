@@ -10,6 +10,7 @@ use App\Comment;
 use App\User;
 use Session;
 use Auth;
+use Purifier;
 
 
 class AuthorCommentsController extends Controller
@@ -51,7 +52,7 @@ class AuthorCommentsController extends Controller
 
       $comment = new Comment();
 
-      $comment->comment = $request->comment;
+      $comment->comment = Purifier::clean($request->comment);
       $comment->approved = true;
       $comment->post()->associate($post);
       $comment->user()->associate($user);
@@ -106,7 +107,7 @@ class AuthorCommentsController extends Controller
       'comment' => 'required'
       ));
 
-      $comment->comment = $request->comment;
+      $comment->comment = Purifier::clean($request->comment);
       $comment->save();
 
       Session::flash('success', 'The comment was successfully updated!');
