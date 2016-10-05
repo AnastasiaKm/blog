@@ -28,10 +28,10 @@
             <td> <a href="{{ route('admin.posts.show', $post->id) }}">{{ $post->user->name }}</a></td>
             <td>{{ $post->category ? $post->category->name : 'Uncategorized' }}</td>
             <td>{{ $post->title }}</td>
-            {{-- <td>{{ str_limit(strip_tags($post->body), 20) }}</td> --}}
-            <td>{{ substr(strip_tags($post->body), 0, 20 }}
+            <td>{{ str_limit(strip_tags($post->body), 20) }}</td>
+            {{-- <td>{{ substr(strip_tags($post->body), 0, 20 }}
                 {{ strlen(strip_tags($post->body)) > 20 ? "..." : "" }}
-            </td>
+            </td> --}}
             <td>{{ $post->created_at->diffForHumans() }}</td>
             <td>{{ $post->updated_at->diffForHumans() }}</td>
           </tr>
