@@ -5,7 +5,7 @@
     <div class="col-md-8 col-md-offset-2">
       <h3>Are you sure you want to delete this comment??</h3>
       <p>
-        <strong>Comment:</strong> {{ $comment->comment }}
+        <strong>Comment:</strong> {!! $comment->comment !!}
       </p>
 
       {{ Form::open(['route' => ['author.comments.destroy', $comment->id], 'method' => 'DELETE']) }}
