@@ -67,7 +67,7 @@ class AuthorPostsController extends Controller
       $post->title = $request->title;
       $post->slug = $slug;
       $post->user_id = $user ->id;
-      $post->body = Purifier::clean($request->body);
+      $post->body = $request->body;
       $post->category_id = $request->category_id;
 
       if ($file= $request -> file('photo_id')) {
@@ -169,7 +169,7 @@ class AuthorPostsController extends Controller
       $post = Post::findOrFail($id);
       $post->title = $request->input('title');
       $post->category_id = $request->input('category_id');
-      $post->body = Purifier::clean($request->input('body'));
+      $post->body = $request->input('body');
 
       // $input = $request->all();
 

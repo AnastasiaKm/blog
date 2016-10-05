@@ -52,7 +52,7 @@ class AuthorCommentsController extends Controller
 
       $comment = new Comment();
 
-      $comment->comment = clean($request->comment);
+      $comment->comment = $request->comment;
       $comment->approved = true;
       $comment->post()->associate($post);
       $comment->user()->associate($user);
@@ -107,7 +107,7 @@ class AuthorCommentsController extends Controller
       'comment' => 'required'
       ));
 
-      $comment->comment = Purifier::clean($request->comment);
+      $comment->comment = $request->comment;
       $comment->save();
 
       Session::flash('success', 'The comment was successfully updated!');
