@@ -68,7 +68,7 @@ class AdminPostsController extends Controller
       $post->title = $request->title;
       $post->slug = $slug;
       $post->user_id = $user ->id;
-      $post->body = Purifier::clean($request->body);
+      $post->body = $request->body;
       $post->category_id = $request->category_id;
 
       if ($file= $request->file('photo_id')) {
