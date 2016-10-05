@@ -52,7 +52,7 @@ class AuthorCommentsController extends Controller
 
       $comment = new Comment();
 
-      $comment->comment = $request->comment;
+      $comment->comment = clean($request->comment);
       $comment->approved = true;
       $comment->post()->associate($post);
       $comment->user()->associate($user);
