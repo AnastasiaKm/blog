@@ -16,7 +16,7 @@
 @section('content')
 
 <div class="row">
-  <div class="col-md-6 col-md-offset-1">
+  <div class="col-md-8">
     @if(isset($post->photo_id))
       {{-- <img src="{{ asset('images/' . $post->image) }}" class="img-responsive center-block"> --}}
       <img src="{{ $photo->file }}" class="img-responsive" style="width:300px; height:200px;">
@@ -75,7 +75,7 @@
     </div> <!-- backend-comments -->
   </div> <!-- col -->
 
-  <div class="col-md-4 col-md-offset-1">
+  <div class="col-md-4">
     <div class="well">
 
       {{-- <dl class="dl-horizontal">
