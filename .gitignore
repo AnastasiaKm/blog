@@ -1,6 +1,45 @@
-/vendor
-/node_modules
-/public/storage
+### OSX BOOGERS ###
+.DS_Store
+*._DS_Store
+._.DS_Store
+*._
+._*
+._.*
+
+### WINDOWS BOOGERS ###
+Thumbs.db
+
+### Sass ###
+#bower_components/*
+/.sass-cache/*
+.sass-cache
+
+### SUBLIMETEXT BOOGERS ###
+*.sublime-workspace
+
+### PHPSTORM BOOGERS ###
+.idea/*
+/.idea/*
+
+### DIFFERENT TYPE OF MASTER CONFIGS ###
+.env
+.env-dev
+.env-live
+.env.dev
+.env.production
+.env-*
+/config/blog.php
+/sql
+composer.lock
+
+### ASSET EXCLUSIONS ###
+/ref
+uploads
+vendor
+node_modules
 Homestead.yaml
 Homestead.json
-.env
+
+## IGNORE FOR NOW DUE TO GITHUB CONFLICTS
+README.md
+readme.md

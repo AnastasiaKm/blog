@@ -1,82 +1,125 @@
-@extends('layouts.app')
+@extends('app')
+
+@section('template_title')
+	Register
+@endsection
 
 @section('content')
-<div class="container">
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-default">
-                <div class="panel-heading">Register</div>
-                <div class="panel-body">
-                    <form class="form-horizontal" role="form" method="POST" action="{{ url('/register') }}">
-                        {{ csrf_field() }}
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-8 col-md-offset-2">
+				<div class="panel panel-default">
+					<div class="panel-heading">{{ Lang::get('titles.register') }}</div>
+					<div class="panel-body">
 
-                        <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
-                            <label for="name" class="col-md-4 control-label">Name</label>
+						@if (count($errors) > 0)
+							<div class="row">
+								<div class="form-group">
+									<div class="col-sm-10 col-sm-offset-1">
+										<div class="alert alert-danger">
+											<strong>{{ Lang::get('auth.whoops') }}</strong> {{ Lang::get('auth.someProblems') }}<br /><br />
+											<ul>
+												@foreach ($errors->all() as $error)
+													<li>{{ $error }}</li>
+												@endforeach
+											</ul>
+										</div>
+									</div>
+								</div>
+							</div>
+						@endif
 
-                            <div class="col-md-6">
-                                <input id="name" type="text" class="form-control" name="name" value="{{ old('name') }}">
+						{!! Form::open(array('url' => url('/auth/register'), 'method' => 'POST', 'class' => 'form-horizontal', 'role' => 'form')) !!}
+							{!! csrf_field() !!}
 
-                                @if ($errors->has('name'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('name') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
+							<div class="form-group has-feedback">
+								{!! Form::label('name', Lang::get('auth.name') , array('class' => 'col-sm-4 control-label')); !!}
+								<div class="col-sm-6">
+									{!! Form::text('name', old('name'), array('id' => 'name', 'class' => 'form-control', 'placeholder' => Lang::get('auth.ph_name'), 'required' => 'required')) !!}
+									<span class="glyphicon glyphicon-user form-control-feedback" aria-hidden="true"></span>
+								</div>
+							</div>
 
-                        <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                            <label for="email" class="col-md-4 control-label">E-Mail Address</label>
+							<div class="form-group has-feedback">
+								{!! Form::label('first_name', Lang::get('auth.first_name') , array('class' => 'col-sm-4 control-label')); !!}
+								<div class="col-sm-6">
+									{!! Form::text('first_name', old('first_name'), array('id' => 'first_name', 'class' => 'form-control', 'placeholder' => Lang::get('auth.ph_firstname'), 'required' => 'required')) !!}
+									<span class="glyphicon glyphicon-pencil form-control-feedback" aria-hidden="true"></span>
+								</div>
+							</div>
 
-                            <div class="col-md-6">
-                                <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}">
+							<div class="form-group has-feedback">
+								{!! Form::label('last_name', Lang::get('auth.last_name') , array('class' => 'col-sm-4 control-label')); !!}
+								<div class="col-sm-6">
+									{!! Form::text('last_name', old('last_name'), array('id' => 'last_name', 'class' => 'form-control', 'placeholder' => Lang::get('auth.ph_lastname'), 'required' => 'required')) !!}
+									<span class="glyphicon glyphicon-pencil form-control-feedback" aria-hidden="true"></span>
+								</div>
+							</div>
 
-                                @if ($errors->has('email'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('email') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
+							<div class="form-group has-feedback">
+								{!! Form::label('email', Lang::get('auth.email') , array('class' => 'col-sm-4 control-label')); !!}
+								<div class="col-sm-6">
+									{!! Form::email('email', old('email'), array('id' => 'email', 'class' => 'form-control', 'placeholder' => Lang::get('auth.ph_email'), 'required' => 'required')) !!}
+									<span class="glyphicon glyphicon-envelope form-control-feedback" aria-hidden="true"></span>
+								</div>
+							</div>
 
-                        <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
-                            <label for="password" class="col-md-4 control-label">Password</label>
+							<div class="form-group has-feedback">
+								{!! Form::label('password', Lang::get('auth.password') , array('class' => 'col-sm-4 control-label')); !!}
+								<div class="col-sm-6">
+									{!! Form::password('password', array('id' => 'password', 'class' => 'form-control', 'placeholder' => Lang::get('auth.ph_password'), 'required' => 'required',)) !!}
+									<span class="glyphicon glyphicon-lock form-control-feedback" aria-hidden="true"></span>
+								</div>
+							</div>
 
-                            <div class="col-md-6">
-                                <input id="password" type="password" class="form-control" name="password">
+							<div class="form-group has-feedback">
+								{!! Form::label('password_confirmation', Lang::get('auth.confirmPassword') , array('class' => 'col-sm-4 control-label')); !!}
+								<div class="col-sm-6">
+									{!! Form::password('password_confirmation', array('id' => 'password_confirmation', 'class' => 'form-control', 'placeholder' => Lang::get('auth.ph_password_conf'), 'required' => 'required',)) !!}
+									<span class="glyphicon glyphicon-lock form-control-feedback" aria-hidden="true"></span>
+								</div>
+							</div>
 
-                                @if ($errors->has('password'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('password') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
+							<div class="form-group">
+								<div class="col-sm-6 col-sm-offset-4 ">
+									<div class="g-recaptcha" data-sitekey="{{ env('RE_CAP_SITE') }}"></div>
+								</div>
+							</div>
 
-                        <div class="form-group{{ $errors->has('password_confirmation') ? ' has-error' : '' }}">
-                            <label for="password-confirm" class="col-md-4 control-label">Confirm Password</label>
+							<div class="form-group">
+								<div class="col-sm-6 col-sm-offset-4">
+									{!! Form::button(Lang::get('auth.register'), array('class' => 'btn btn-primary','type' => 'submit')) !!}
+								</div>
+							</div>
 
-                            <div class="col-md-6">
-                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation">
+						{!! Form::close() !!}
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+@endsection
 
-                                @if ($errors->has('password_confirmation'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('password_confirmation') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
+@section('template_scripts')
 
-                        <div class="form-group">
-                            <div class="col-md-6 col-md-offset-4">
-                                <button type="submit" class="btn btn-primary">
-                                    <i class="fa fa-btn fa-user"></i> Register
-                                </button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+	{!! HTML::script('https://www.google.com/recaptcha/api.js', array('type' => 'text/javascript')) !!}
+    <script type="text/javascript">
+		document.addEventListener("DOMContentLoaded", function(event) {
+		  	matching_password_check();
+		});
+        function matching_password_check() {
+            var password = document.getElementById("password");
+            var confirm_password = document.getElementById("password_confirmation");
+            function validatePassword(){
+                if(password.value != confirm_password.value) {
+                    confirm_password.setCustomValidity("The Passwords do not match");
+                } else {
+                    confirm_password.setCustomValidity('');
+                }
+            }
+            password.onchange = validatePassword;
+            confirm_password.onkeyup = validatePassword;
+        }
+    </script>
+
 @endsection

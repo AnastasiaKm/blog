@@ -1,30 +1,60 @@
-<?php
-
-namespace App\Http\Middleware;
+<?php namespace App\Http\Middleware;
 
 use Closure;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Contracts\Auth\Guard;
 
-class Authenticate
-{
-    /**
-     * Handle an incoming request.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
-     * @param  string|null  $guard
-     * @return mixed
-     */
-    public function handle($request, Closure $next, $guard = null)
-    {
-        if (Auth::guard($guard)->guest()) {
-            if ($request->ajax() || $request->wantsJson()) {
-                return response('Unauthorized.', 401);
-            } else {
-                return redirect()->guest('login');
-            }
-        }
+class Authenticate {
 
-        return $next($request);
-    }
+	/**
+	 * The Guard implementation.
+	 *
+	 * @var Guard
+	 */
+	protected $auth;
+
+	/**
+	 * Create a new filter instance.
+	 *
+	 * @param  Guard  $auth
+	 * @return void
+	 */
+	public function __construct(Guard $auth)
+	{
+		$this->auth = $auth;
+	}
+
+	/**
+	 * Handle an incoming request.
+	 *
+	 * @param  \Illuminate\Http\Request  $request
+	 * @param  \Closure  $next
+	 * @return mixed
+	 */
+	public function handle($request, Closure $next)
+	{
+
+		if ($this->auth->guest())
+		{
+			if ($request->ajax())
+			{
+				return response('Unauthorized.', 401);
+				//abort(403);
+			}
+			else
+			{
+				return redirect()->guest('auth/login');
+			}
+		}
+
+		if (!\Auth::user()->active) {
+			//\Session::flash('message', 'Please activate your account to proceed.');
+			//return redirect()->guest('auth.guest_activate');
+			return view('auth.guest_activate')
+				->with( 'email', \Auth::user()->email )
+				->with( 'date', \Auth::user()->created_at->format('Y-m-d') );
+		}
+
+		return $next($request);
+	}
+
 }

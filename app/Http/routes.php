@@ -1,5 +1,5 @@
 <?php
-
+use App\Post;
 /*
 |--------------------------------------------------------------------------
 | Application Routes
@@ -9,76 +9,177 @@
 | It's a breeze. Simply tell Laravel the URIs it should respond to
 | and give it the controller to call when that URI is requested.
 |
+| http://laravel.com/docs/5.1/authentication
+| http://laravel.com/docs/5.1/authorization
+| http://laravel.com/docs/5.1/routing
+| http://laravel.com/docs/5.0/schema
+| http://socialiteproviders.github.io/
+|
 */
 
-Route::get('/', function () {
-    return view('welcome');
+// PAGE ROUTE ALIASES
+Route::get('user', 'HomeController@home');
+
+Route::get('home', 'HomeController@home');
+
+Route::get('app', function () {
+    return redirect('/');
 });
 
-// Route::get('/', 'HomeController@welcome');
-
-// Route::get('profile', 'UserController@profile');
-// Route::get('admin/profile', 'UserController@profile');
-
-
-Route::auth();
-// Route::get('/login', 'AuthController@rights');
-
-
-Route::get('/home', 'HomeController@index');
-
-Route::get('/admin', function(){
-  return view('admin.index');
-});
-Route::get('/author', function(){
-  return view('author.index');
+Route::get('dashboard', function () {
+    return redirect('/');
 });
 
 
-Route::group(['middleware' => 'admin'], function(){
-  Route::resource('admin/users', 'AdminUsersController');
-  Route::resource('admin/posts', 'AdminPostsController');
-  Route::resource('admin/categories', 'AdminCategoriesController');
-  Route::resource('admin/tags', 'AdminTagsController');
-  Route::resource('admin/media', 'AdminMediasController');
-  Route::post('admin/comments/{post_id}', ['uses' => 'AdminCommentsController@store',
-                                   'as' => 'admin.comments.store']);
-  Route::get('admin/comments/{id}/edit', ['uses' => 'AdminCommentsController@edit',
-                                    'as' => 'admin.comments.edit']);
-  Route::put('admin/comments/{id}', ['uses' => 'AdminCommentsController@update',
-                        'as' => 'admin.comments.update']);
-  Route::delete('admin/comments/{id}', ['uses' => 'AdminCommentsController@destroy',
-                                    'as' => 'admin.comments.destroy']);
-  Route::get('admin/comments/{id}/delete', ['uses'=> 'AdminCommentsController@delete',
-                                  'as' => 'admin.comments.delete']);
+// ALL AUTHENTICATION ROUTES - HANDLED IN THE CONTROLLERS
+Route::controllers([
+	'auth' 		=> 'Auth\AuthController',
+	'password' 	=> 'Auth\PasswordController',
+]);
+
+// REGISTRATION EMAIL CONFIRMATION ROUTES
+Route::get('/resendEmail', 'Auth\AuthController@resendEmail');
+Route::get('/activate/{code}', 'Auth\AuthController@activateAccount');
+
+// LARAVEL SOCIALITE AUTHENTICATION ROUTES
+Route::get('/social/redirect/{provider}', [
+	'as' 	=> 'social.redirect',
+	'uses' 	=> 'Auth\AuthController@getSocialRedirect'
+]);
+Route::get('/social/handle/{provider}', [
+	'as' 	=> 'social.handle',
+	'uses' 	=> 'Auth\AuthController@getSocialHandle'
+]);
+
+// AUTHENTICATION ALIASES/REDIRECTS
+Route::get('login', function () {
+    return redirect('auth/login');
+});
+Route::get('logout', function () {
+    return redirect('auth/logout');
+});
+Route::get('register', function () {
+    return redirect('auth/register');
+});
+Route::get('reset', function () {
+    return redirect('password/email');
+});
+
+// USER PAGE ROUTES - RUNNING THROUGH AUTH MIDDLEWARE
+Route::group(['middleware' => 'auth'], function () {
+
+	// HOMEPAGE ROUTE
+	Route::get('/', [
+	    'as' 		=> 'user',
+	    'uses' 		=> 'UserController@index'
+	]);
+
+	// INCEPTIONED MIDDLEWARE TO CHECK TO ALLOW ACCESS TO CURRENT USER ONLY
+	Route::group(['middleware'=> 'currentUser'], function () {
+			Route::resource(
+				'profile',
+				'ProfilesController', [
+					'only' 	=> [
+						'show',
+						'edit',
+						'update'
+					]
+				]
+			);
+	});
+	Route::get('profile/{username}', [
+		'as' 		=> '{username}',
+		'uses' 		=> 'ProfilesController@show'
+	]);
+
+	Route::get('dashboard/profile/{username}', [
+		'as' 		=> '{username}',
+		'uses' 		=> 'ProfilesController@show'
+	]);
+
+});
+
+// ADMINISTRATOR ACCESS LEVEL PAGE ROUTES - RUNNING THROUGH ADMINISTRATOR MIDDLEWARE
+Route::group(['middleware' => 'administrator'], function () {
+
+	// TEST ROUTE ONLY ROUTE
+	Route::get('administrator', function () {
+	    echo 'Welcome to your ADMINISTRATOR page '. Auth::user()->email .'.';
+	});
+
+	// SHOW ALL USERS PAGE ROUTE
+	Route::resource('users', 'UsersManagementController');
+	Route::get('users', [
+		'as' 			=> '{username}',
+		'uses' 			=> 'UsersManagementController@showUsersMainPanel'
+	]);
+
+	// EDIT USERS PAGE ROUTE
+	Route::get('edit-users', [
+		'as' 			=> '{username}',
+		'uses' 			=> 'UsersManagementController@editUsersMainPanel'
+	]);
 
 
 });
 
-Route::group(['middleware' => 'author'], function(){
-  Route::resource('author/posts', 'AuthorPostsController');
-  Route::resource('author/categories', 'AuthorCategoriesController');
-  Route::resource('author/tags', 'AuthorTagsController');
-  Route::resource('author/media', 'AuthorMediasController');
-  Route::post('author/comments/{post_id}', ['uses' => 'AuthorCommentsController@store',
-                                   'as' => 'author.comments.store']);
-  Route::get('author/comments/{id}/edit', ['uses' => 'AuthorCommentsController@edit',
-                                    'as' => 'author.comments.edit']);
-  Route::put('author/comments/{id}', ['uses' => 'AuthorCommentsController@update',
-                        'as' => 'author.comments.update']);
-  Route::delete('author/comments/{id}', ['uses' => 'AuthorCommentsController@destroy',
-                                    'as' => 'author.comments.destroy']);
-  Route::get('author/comments/{id}/delete', ['uses'=> 'AuthorCommentsController@delete',
-                                  'as' => 'author.comments.delete']);
-  // Route::get('profile/index/{id}/{photo}', function(){
-  //   view('author.profile.index');
-  // });
-  //
-  // Route::get('profile/{id}/edit', ['uses'=> 'UserController@edit',
-  //                                 'as' => 'author.profile.edit']);
-  // Route::post('profile/index/{id}', ['uses'=> 'UserController@update_image',
-  //                                 'as' => 'author.profile.update']);
-  Route::resource('author/profile', 'AuthorController');
+// EDITOR ACCESS LEVEL PAGE ROUTES - RUNNING THROUGH EDITOR MIDDLEWARE
+Route::group(['middleware' => 'editor'], function () {
 
+	//TEST ROUTE ONLY
+	Route::get('editor', function () {
+	    echo 'Welcome to your EDITOR page '. Auth::user()->email .'.';
+	});
 
 });
+
+//***************************************************************************************//
+//***************************** USER ROUTING EXAMPLES BELOW *****************************//
+//***************************************************************************************//
+
+// //** OPTION - ALL FOLLOWING ROUTES RUN THROUGH AUTHETICATION VIA MIDDLEWARE **//
+// Route::group(['middleware' => 'auth'], function () {
+
+// 	// OPTION - GO DIRECTLY TO TEMPLATE
+	// Route::get('/', function () {
+	//     return view('pages.home');
+	// });
+
+
+// 	// OPTION - USE CONTROLLER
+// 	Route::get('/', [
+// 	    'as' 			=> 'user',
+// 	    'uses' 			=> 'UsersController@index'
+// 	]);
+
+// });
+
+// //** OPTION - SINGLE ROUTE USING A CONTROLLER AND AUTHENTICATION VIA MIDDLEWARE **//
+// Route::get('/', [
+//     'middleware' 	=> 'auth',
+//     'as' 			=> 'user',
+//     'uses' 			=> 'UsersController@index'
+// ]);
+
+// POSTS
+Route::resource('posts', 'PostsController');
+Route::get('edit-posts',  ['uses' => 'PostsController@edit_all',
+                                   'as' => 'posts.edit-all']);
+
+//COMMENTS
+Route::post('comments/{post_id}', ['uses' => 'CommentsController@store',
+                                   'as' => 'comments.store']);
+Route::get('comments/{id}/edit', ['uses' => 'CommentsController@edit',
+                                  'as' => 'comments.edit']);
+Route::put('comments/{id}', ['uses' => 'CommentsController@update',
+                             'as' => 'comments.update']);
+Route::delete('comments/{id}', ['uses' => 'CommentsController@destroy',
+                                'as' => 'comments.destroy']);
+Route::get('comments/{id}/delete', ['uses'=> 'CommentsController@delete',
+                                    'as' => 'comments.delete']);
+
+// TAGS
+Route::resource('tags', 'TagsController');
+
+// CATEGORIES
+Route::resource('categories', 'CategoriesController');
