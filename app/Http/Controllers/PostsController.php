@@ -14,6 +14,8 @@ use App\Models\User;
 use Session;
 use Purifier;
 use Image;
+use App\Http\Flash;
+
 
 
 class PostsController extends Controller
@@ -107,7 +109,10 @@ class PostsController extends Controller
       $post->tags()->sync($request->tags, false);
 
       // $user->posts()->create($input);
-      Session::flash('success', 'The post has been added!');
+      // Session::flash('success', 'The post has been added!');
+      // flash('Success!', 'Post has been added!');
+
+      flash()->success('Success!', 'Post has been added!');
 
       return redirect()->route('posts.index');
 
@@ -236,12 +241,22 @@ class PostsController extends Controller
 
 
     // Auth::user()->posts()->whereId($id)->first()->update($input);
-    Session::flash('success', 'The post has been updated!');
+    // Session::flash('success', 'The post has been updated!');
+
+    flash()->success('Success!', 'Post has been updated!');
+
 
     return redirect()->route('posts.index');
 
 
     }
+
+    public function delete($id)
+    {
+      $post = Post::find($id);
+      return view('posts.delete')->with('post', $post);
+    }
+
 
     /**
      * Remove the specified resource from storage.
@@ -251,6 +266,10 @@ class PostsController extends Controller
      */
     public function destroy($id)
     {
-        //
+      Post::findOrFail($id)->delete();
+      // Session::flash('success', 'The category has been deleted!');
+      flash()->success('Success!', 'The post has been deleted!');
+
+      return redirect()->route('posts.index');
     }
 }

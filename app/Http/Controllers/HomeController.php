@@ -1,5 +1,6 @@
 <?php namespace App\Http\Controllers;
 
+use App\Http\Flash;
 use App\Post;
 use App\Photo;
 
@@ -33,12 +34,13 @@ class HomeController extends Controller {
 	 */
 	public function index()
 	{
+
 		return view('app');
 	}
 
 	public function home()
 	{
-		$posts = Post::orderBy('id', 'desc')->take(5)->where('photo_id', '<>', "")->get();
+		$posts = Post::orderBy('id', 'desc')->take(6)->where('photo_id', '<>', "")->get();
 		$photos = array();
 		foreach ($posts as $post) {
 			if($post->photo_id) {
@@ -48,6 +50,7 @@ class HomeController extends Controller {
 			}
 		}
 		// return dd($posts);
+
 		return view('pages.home')->with('posts', $posts)->with('photos', $photos);
 	}
 

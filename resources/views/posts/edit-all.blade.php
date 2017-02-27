@@ -21,7 +21,7 @@
 			<div class="table-responsive">
 				<table id="posts_table" class="table table-striped table-hover table-condensed">
 					<thead>
-						<tr class="success">
+						<tr class="info">
               <th>Photo</th>
               <th>Owner</th>
               <th>Category</th>
@@ -42,16 +42,16 @@
 	                <td>{{ $post->created_at->diffForHumans() }}</td>
 	                <td>{{ $post->updated_at->diffForHumans() }}</td>
 									<td>
-										{!! Form::open(array('url' => 'posts/' . $post->id, 'class' => 'pull-right')) !!}
-											{!! Form::hidden('_method', 'DELETE') !!}
-											{!! Form::button('<i class="fa fa-trash-o fa-fw" aria-hidden="true"></i> Delete this Post', array('class' => 'btn btn-danger btn-block btn-flat','type' => 'button', 'data-toggle' => 'modal', 'data-target' => '#confirmDelete', 'data-title' => 'Delete Post', 'data-message' => 'Are you sure you want to delete this post ?')) !!}
-										{!! Form::close() !!}
+										<a class="btn btn-small btn-danger btn-block btn-flat" href="{{ route('posts.delete', $post->id) }}" >
+				              <span class="fa fa-trash">Delete</span>
+				            </a>
 									</td>
 									<td>
-										<a class="btn btn-small btn-info btn-block btn-flat" href="{{ URL::to('posts/' . $post->id . '/edit') }}"><i class=" fa fa-pencil fa-fw"></i> Edit this Post</a>
+										<a class="btn btn-small btn-info btn-block btn-flat" href="{{ URL::to('posts/' . $post->id . '/edit') }}">
+											<i class=" fa fa-pencil fa-fw"></i>Edit</a>
 									</td>
 									<td>
-										<a class="btn btn-small btn-success btn-block btn-flat" href="{{ route('posts.show', $post->id) }}">Show this Post</a>
+										<a class="btn btn-small btn-success btn-block btn-flat" href="{{ route('posts.show', $post->id) }}">Show</a>
 									</td>
 								</tr>
 							@endforeach

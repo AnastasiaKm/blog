@@ -1,5 +1,6 @@
 <div id="wrapper">
-	<nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin: 0;">
+	<!-- <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin: 0;"> -->
+	<nav class="navbar navbar-inverse navbar-static-top" role="navigation" style="margin: 0;">
 		<div class="container-fluid">
 			<div class="navbar-header">
 				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
@@ -59,12 +60,16 @@
 			    <div class="sidebar-nav navbar-collapse">
 			        <ul class="nav" id="side-menu">
 			            <li>
-			                <a href="#"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
+			                <a href="{{ route('statuses.index') }}"><i class="fa fa-home fa-fw"></i> Dashboard</a>
+			            </li>
+
+									<li>
+			                <a href="{{ route('all_users.index') }}"><i class="fa fa-user"></i> All Users</a>
 			            </li>
 
 
 			            <li>
-			                <a href="#"><i class="fa fa-wrench fa-fw"></i> Posts<span class="fa arrow"></span></a>
+			                <a href="#"><i class="fa fa-pencil-square-o fa-fw"></i> Posts<span class="fa arrow"></span></a>
 			                <ul class="nav nav-second-level">
 			                    <li>
 			                        <a href="{{ route('posts.index') }}">All Posts</a>
@@ -80,7 +85,7 @@
 			            </li>
 
 			            <li>
-			                <a href="#"><i class="fa fa-wrench fa-fw"></i> Categories<span class="fa arrow"></span></a>
+			                <a href="#"><i class="fa fa-bars fa-fw"></i> Categories<span class="fa arrow"></span></a>
 			                <ul class="nav nav-second-level">
 			                    <li>
 			                        <a href="{{ route('categories.index') }}">All Categories</a>
@@ -93,7 +98,7 @@
 			            </li>
 
 			            <li>
-			                <a href="#"><i class="fa fa-wrench fa-fw"></i> Tags<span class="fa arrow"></span></a>
+			                <a href="#"><i class="fa fa-tags fa-fw"></i> Tags<span class="fa arrow"></span></a>
 			                <ul class="nav nav-second-level">
 			                    <li>
 			                        <a href="{{ route('tags.index') }}">All Tags</a>

@@ -34,7 +34,9 @@ class CategoriesController extends Controller
       'name' => 'required|max:255'
       ));
       Category::create($request->all());
-      Session::flash('success', 'The category has been added!');
+      // Session::flash('success', 'The category has been added!');
+      flash()->success('Success!', 'The category has been added!');
+
       return redirect()->route('categories.index');
 
     }
@@ -81,7 +83,9 @@ class CategoriesController extends Controller
       ));
       $category = Category::findOrFail($id);
       $category->update($request->all());
-      Session::flash('success', 'The category has been updated!');
+      // Session::flash('success', 'The category has been updated!');
+      flash()->success('Success!', 'The category has been updated!');
+
       return redirect()->route('categories.index');
 
     }
@@ -95,7 +99,9 @@ class CategoriesController extends Controller
     public function destroy($id)
     {
       Category::findOrFail($id)->delete();
-      Session::flash('success', 'The category has been deleted!');
+      // Session::flash('success', 'The category has been deleted!');
+      flash()->success('Success!', 'The category has been deleted!');
+
       return redirect()->route('categories.index');
     }
 }

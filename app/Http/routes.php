@@ -165,6 +165,9 @@ Route::group(['middleware' => 'editor'], function () {
 Route::resource('posts', 'PostsController');
 Route::get('edit-posts',  ['uses' => 'PostsController@edit_all',
                                    'as' => 'posts.edit-all']);
+Route::get('posts/{id}/delete', ['uses'=> 'PostsController@delete',
+                                   'as' => 'posts.delete']);
+
 
 //COMMENTS
 Route::post('comments/{post_id}', ['uses' => 'CommentsController@store',
@@ -183,3 +186,13 @@ Route::resource('tags', 'TagsController');
 
 // CATEGORIES
 Route::resource('categories', 'CategoriesController');
+
+// STATUS
+Route::get('statuses', ['uses' => 'StatusController@index',
+                        'as' => 'statuses.index']);
+Route::post('statuses', ['uses' => 'StatusController@store',
+                        'as' => 'statuses.store']);
+Route::get('all_users', ['uses' => 'UsersController@index',
+                         'as' => 'all_users.index']);
+Route::get('all_users/{id}', ['uses' => 'UsersController@show',
+                       'as' => 'all_users.show']);

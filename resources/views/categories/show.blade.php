@@ -31,7 +31,7 @@
     <div class="col-md-6 col-md-offset-1">
       <table class="table">
         <thead>
-          <tr class="success">
+          <tr class="info">
             <th>Title</th>
             <th></th>
           </tr>

@@ -28,7 +28,7 @@
     @if($tags)
       <table class="table">
         <thead>
-          <tr class="success">
+          <tr class="info">
             <th>Name</th>
             <th>Created at</th>
             <th>Updated at</th>

@@ -24,7 +24,7 @@
 			<div class="table-responsive">
 				<table id="users_table" class="table table-striped table-hover">
 					<thead>
-						<tr class="success">
+						<tr class="info">
 							<th>ID</th>
 							<th>Username</th>
 							<th>Email</th>

@@ -5,10 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
-use App\Tag;
-use Session;
+use App\Models\User;
+use App\Status;
 
-class TagsController extends Controller
+class UsersController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,9 +17,8 @@ class TagsController extends Controller
      */
     public function index()
     {
-      $tags = Tag::orderBy('name')->paginate(10);
-      return view('tags.index')->with('tags', $tags);
-
+        $all_users = User::orderBy('name', 'asc')->paginate(10);
+        return view('all_users.index')->with('all_users', $all_users);
     }
 
     /**
@@ -40,18 +39,7 @@ class TagsController extends Controller
      */
     public function store(Request $request)
     {
-      $this->validate($request, array(
-      'name' => 'required|max:255'
-      ));
-      $tag = new Tag;
-      $tag->name = $request->name;
-      $tag->save();
-
-      // Session::flash('success', 'The tag has been added!');
-      flash()->success('Success!', 'The tag has been added!');
-
-      return redirect()->route('tags.index');
-
+        //
     }
 
     /**
@@ -62,9 +50,12 @@ class TagsController extends Controller
      */
     public function show($id)
     {
-      $tag = Tag::find($id);
-      return view('tags.show')->with('tag', $tag);
+        $user = User::with(['statuses' => function($query)
+        {
+          $query->latest();
+        }])->findOrFail($id);
 
+        return view('all_users.show')->with('user', $user);
     }
 
     /**
@@ -75,9 +66,7 @@ class TagsController extends Controller
      */
     public function edit($id)
     {
-      $tag = Tag::findOrFail($id);
-      return view('tags.edit')->with('tag', $tag);
-
+        //
     }
 
     /**
@@ -89,18 +78,7 @@ class TagsController extends Controller
      */
     public function update(Request $request, $id)
     {
-      $this->validate($request, array(
-      'name' => 'required|max:255'
-      ));
-      $tag = Tag::findOrFail($id);
-      $tag->name = $request->input('name');
-      $tag->save();
-
-      // Session::flash('success', 'The tag has been updated!');
-      flash()->success('Success!', 'The tag has been updated!');
-
-      return redirect()->route('tags.index');
-
+        //
     }
 
     /**
@@ -111,14 +89,6 @@ class TagsController extends Controller
      */
     public function destroy($id)
     {
-      $tag = Tag::findOrFail($id);
-      $tag->posts()->detach();
-      $tag->delete();
-
-      // Session::flash('success', 'The tag has been deleted!');
-      flash()->success('Success!', 'The tag has been deleted!');
-
-      return redirect()->route('tags.index');
-
+        //
     }
 }

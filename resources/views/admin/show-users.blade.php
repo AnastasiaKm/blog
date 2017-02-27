@@ -23,7 +23,7 @@
 
 			<table id="user_table" class="table table-striped table-hover table-condensed">
 				<thead>
-					<tr class="success">
+					<tr class="info">
 						<th>ID</th>
 						<th>Name</th>
 						<th>Email</th>

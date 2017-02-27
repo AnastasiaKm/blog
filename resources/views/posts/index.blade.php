@@ -21,7 +21,7 @@
         <div class="table-responsive">
           <table id="post_table" class="table table-striped table-hover table-condensed">
             <thead>
-              <tr class="success">
+              <tr class="info">
                 <th>Photo</th>
                 <th>Owner</th>
                 <th>Category</th>

@@ -12,6 +12,7 @@
 
 		{{-- STYLESHEETS --}}
 		{!! HTML::style(asset('/css/app.css'), array('type' => 'text/css', 'rel' => 'stylesheet')) !!}
+		<link rel="stylesheet" href="/css/libs.css">
 		{!! HTML::style(asset('/css/blog-post.css'), array('type' => 'text/css', 'rel' => 'stylesheet')) !!}
 		{!! HTML::style(asset('/css/bootstrap.min.css'), array('type' => 'text/css', 'rel' => 'stylesheet')) !!}
 		{!! HTML::style(asset('/css/font-awesome.css'), array('type' => 'text/css', 'rel' => 'stylesheet')) !!}
@@ -55,17 +56,19 @@
 		{{-- {!! HTML::script('//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.1/js/bootstrap.min.js', array('type' => 'text/javascript')) !!} --}}
 		{!! HTML::script('//maps.googleapis.com/maps/api/js?key='.env("GOOGLEMAPS_API_KEY").'&libraries=places&dummy=.js', array('type' => 'text/javascript')) !!}
 		<script src="http://code.jquery.com/jquery-1.12.3.js"></script>
+		<script src="/js/libs.js"></script>
 		<script src="/js/bootstrap.min.js"></script>
 		<script src="/js/metisMenu.js"></script>
 		<script src="/js/npm.js"></script>
 		<script src="/js/sb-admin-2.js"></script>
-
+		@include('flash')
 		@yield('template_scripts')
 
 	</body>
 	<footer>
-	  <div id="copyright text-right" class="text-center">© Copyright 2016 Karamichailidou Anastasia</div>
-
+	  <div id="copyright text-right" class="text-center">
+			<a href="#">© Copyright 2017 Karamichailidou Anastasia</a>
+		</div>
 	</footer>
 
 </html>
