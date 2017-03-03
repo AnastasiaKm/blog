@@ -50,10 +50,7 @@ class UsersController extends Controller
      */
     public function show($id)
     {
-        $user = User::with(['statuses' => function($query)
-        {
-          $query->latest();
-        }])->findOrFail($id);
+        $user = User::with('statuses')->findOrFail($id);
 
         return view('all_users.show')->with('user', $user);
     }

@@ -192,7 +192,14 @@ Route::get('statuses', ['uses' => 'StatusController@index',
                         'as' => 'statuses.index']);
 Route::post('statuses', ['uses' => 'StatusController@store',
                         'as' => 'statuses.store']);
+
 Route::get('all_users', ['uses' => 'UsersController@index',
                          'as' => 'all_users.index']);
 Route::get('all_users/{id}', ['uses' => 'UsersController@show',
                        'as' => 'all_users.show']);
+
+// FOLLOWS
+Route::post('follows', ['uses' => 'FollowsController@store',
+                        'as' => 'follows.store']);
+Route::delete('follows/{id}', ['uses' => 'FollowsController@destroy',
+                        'as' => 'follows.destroy']);

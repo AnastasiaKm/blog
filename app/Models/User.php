@@ -153,8 +153,36 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 
     public function statuses()
     {
-      return $this->hasMany('App\Status');
+      return $this->hasMany('App\Status')->latest();
     }
+
+    public function follows()
+    {
+      return $this->belongsToMany(self::class, 'follows', 'follower_id', 'followed_id')
+                  ->withTimestamps();
+    }
+
+    public function followers()
+    {
+      return $this->belongsToMany(self::class, 'follows', 'followed_id', 'follower_id')
+                  ->withTimestamps();
+    }
+
+
+    public function isFollowedBy(User $otherUser)
+    {
+      $idsWhoOtherUserFollows = $otherUser->follows()->lists('followed_id');
+      foreach ($idsWhoOtherUserFollows as $idsWhoOtherUserFollow)
+      {
+        if ($this->id == $idsWhoOtherUserFollow)
+        {
+          return true;
+        }
+      }
+      // return dd($idsWhoOtherUserFollows);
+      // return in_array($this->id, $idsWhoOtherUserFollows);
+    }
+
 
 
 }

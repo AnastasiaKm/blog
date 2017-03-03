@@ -21,9 +21,13 @@ class StatusController extends Controller
     public function index()
     {
         $user = Auth::user();
-        $statuses = Status::with('user')->orderBy('created_at', 'desc')->paginate(10);
-        return view('statuses.index')->with('statuses', $statuses)
-                                     ->with('user', $user);
+        $userIds = $user->follows()->lists('followed_id');
+        $userIds[] = $user->id; // Adds to array the id of Auth user
+
+        $statuses = Status::whereIn('user_id', $userIds)->latest()->get();
+        return view('statuses.index')->with('userIds', $userIds)
+                                     ->with('user', $user)
+                                     ->with('statuses', $statuses);
     }
 
     /**
@@ -51,7 +55,7 @@ class StatusController extends Controller
         $user = Auth::user();
         $status = new Status;
         $status->body = $request->body;
-        $status->user_id = $user ->id;
+        $status->user_id = $user->id;
         $status->save();
 
         flash()->success('Success!', 'Status has been added!');
