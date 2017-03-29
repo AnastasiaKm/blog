@@ -6,12 +6,11 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Status;
+use App\Stcomment;
 use Auth;
-use App\Models\User;
-use Redirect;
+use Session;
 
-
-class StatusController extends Controller
+class StCommentsController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -20,15 +19,7 @@ class StatusController extends Controller
      */
     public function index()
     {
-        $user = Auth::user();
-        $userIds = $user->follows()->lists('followed_id');
-        $userIds[] = $user->id; // Adds to array the id of Auth user
-
-        $statuses = Status::with('comments')->whereIn('user_id', $userIds)->latest()->get();
-
-        return view('statuses.index')->with('userIds', $userIds)
-                                     ->with('user', $user)
-                                     ->with('statuses', $statuses);
+        //
     }
 
     /**
@@ -47,21 +38,30 @@ class StatusController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, $status_id)
     {
-        $this->validate($request, array(
-          'body' => 'required'
-        ));
+      $this->validate($request, array(
+      'body' => 'required|min:5|max:2000'
+      ));
 
-        $user = Auth::user();
-        $status = new Status;
-        $status->body = $request->body;
-        $status->user_id = $user->id;
-        $status->save();
+      $status = Status::findOrFail($status_id);
+      $user = Auth::user();
 
-        flash()->success('Success!', 'Status has been added!');
+      $stcomment = new Stcomment();
 
-        return Redirect::back();
+      $stcomment->body = $request->body;
+      $stcomment->status()->associate($status);
+      $stcomment->user()->associate($user);
+      $stcomment->user_id = $user->id;
+      $stcomment->status_id = $status_id;
+
+      $stcomment->save();
+
+      Session::flash('success', 'Comment was added!');
+
+
+      return redirect()->route('statuses.index');
+
     }
 
     /**

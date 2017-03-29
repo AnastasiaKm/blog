@@ -28,7 +28,6 @@ class UserController extends Controller
       $categories = Category::orderBy('id', 'desc')->take(5)->get();
       $tags = Tag::orderBy('id', 'desc')->take(5)->get();
       $comments = Comment::orderBy('id', 'desc')->take(5)->get();
-      // where('photo_id', '<>', "")->
   		$photos = array();
   		foreach ($posts as $post) {
   			if($post->photo_id) {
@@ -37,8 +36,6 @@ class UserController extends Controller
   				$photos[] = "";
   			}
   		}
-  		// return dd($comments);
-      // flash()->overlay('Welcome Aboard!', 'You are logged in!');
 
   		return view('pages.home')->with('posts', $posts)
                                ->with('photos', $photos)

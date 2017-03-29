@@ -8,11 +8,11 @@
       @foreach($userSet as $user)
         <div class="col-md-3 user-block">
           <a href="{{ route('all_users.show', $user->id) }}">
-            <img class="media-object img-circle avatar" src="/images/{{ $user->avatar }}"
+            <img class="media-object" src="/images/{{ $user->avatar }}"
                  alt="{{ $user->name }}"
                  width="70" height="70">
           </a>
-          <h4 class="user-block-name">
+          <h4 class="media-object">
             <a href="{{ route('all_users.show', $user->id ) }}">
               {{ $user->name }}
             </a>

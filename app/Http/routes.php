@@ -65,6 +65,7 @@ Route::get('reset', function () {
     return redirect('password/email');
 });
 
+
 // USER PAGE ROUTES - RUNNING THROUGH AUTH MIDDLEWARE
 Route::group(['middleware' => 'auth'], function () {
 
@@ -73,6 +74,8 @@ Route::group(['middleware' => 'auth'], function () {
 	    'as' 		=> 'user',
 	    'uses' 		=> 'UserController@index'
 	]);
+
+
 
 	// INCEPTIONED MIDDLEWARE TO CHECK TO ALLOW ACCESS TO CURRENT USER ONLY
 	Route::group(['middleware'=> 'currentUser'], function () {
@@ -203,3 +206,7 @@ Route::post('follows', ['uses' => 'FollowsController@store',
                         'as' => 'follows.store']);
 Route::delete('follows/{id}', ['uses' => 'FollowsController@destroy',
                         'as' => 'follows.destroy']);
+
+// STATUS COMMENTS
+Route::post('statuses/{id}/comments', ['uses' => 'StCommentsController@store',
+                                             'as' => 'stcomments.store']);

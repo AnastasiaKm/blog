@@ -6,7 +6,7 @@
     <div class="col-md-4">
       <div class="media">
         <div class="pull-left">
-          <img class="media-object img-circle avatar" src="/images/{{ $user->avatar }}"
+          <img class="media-object" src="/images/{{ $user->avatar }}"
                alt="{{ $user->name }}"
                width="70" height="70">
         </div> <!-- pull-left -->

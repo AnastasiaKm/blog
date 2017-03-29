@@ -18,9 +18,7 @@
   @endforeach
 @endif
 <div class="container">
-		<!-- First Featurette -->
 		<div class="featurette" id="about">
-				<!------------------------code---------------start---------------->
 				<div class="container">
 					<?php $i=0; ?>
 
@@ -31,11 +29,11 @@
 									<div class="media">
 										<div class="col-md-2">
 											@if ($post->photo_id)
-												<a class="pull-left" href="#">
+												<a class="pull-left" href="{{ route('posts.show', $post->id) }}">
 														<img class="media-object" src="{{ $post->photo->file }}" width="100" height="100">
 												</a>
 											@else
-												<a class="pull-left" href="#">
+												<a class="pull-left">
 														<img class="media-object" src="http://www.tutorialspoint.com//scripts/img/logo-footer.png">
 												</a>
 											@endif
@@ -59,7 +57,6 @@
 															</li>
 															<li>|</li>
 															<li>
-																	<!-- Use Font Awesome http://fortawesome.github.io/Font-Awesome/ -->
 																	<span><i class="fa fa-facebook-square"></i></span>
 																	<span><i class="fa fa-twitter-square"></i></span>
 																	<span><i class="fa fa-google-plus-square"></i></span>
@@ -91,9 +88,9 @@
 										<ul>
 											@foreach ($comments as $comment)
 												<li>
-													<span>{{ $comment->user->name }}</span> on
-													<a href="{{ route('posts.show', $comment->post->id) }}">{{ $comment->post->title }}
-													</a>
+													<!-- <span>{{ $comment->user->name }}</span> on -->
+													<a href="{{ route('all_users.show', $comment->user->id) }}">{{ $comment->user->name }}</a> on
+													<a href="{{ route('posts.show', $comment->post->id) }}">{{ $comment->post->title }}</a>
 												</li>
 											@endforeach
 										</ul>

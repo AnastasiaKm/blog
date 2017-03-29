@@ -61,6 +61,17 @@
 		<script src="/js/metisMenu.js"></script>
 		<script src="/js/npm.js"></script>
 		<script src="/js/sb-admin-2.js"></script>
+		<script>
+			$('#flash-overlay-modal').modal();
+
+			$('.comments__create-form').on('keydown', function(e) {
+				if (e.keyCode == 13) {
+					e.preventDefault();
+					$(this).submit();
+				}
+			});
+		</script>
+
 		@include('flash')
 		@yield('template_scripts')
 

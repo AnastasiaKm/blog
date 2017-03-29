@@ -63,7 +63,7 @@
 								{{ $user->email }}
 							</dd>
 
-							@if ($user->profile)
+							<!-- @if ($user->profile)
 								@if ($user->profile->location)
 									<dt>
 										{{ Lang::get('profile.showProfileLocation') }}
@@ -103,7 +103,7 @@
 										{!! HTML::link('https://github.com/'.$user->profile->github_username, $user->profile->github_username, array('class' => 'github-link', 'target' => '_blank')) !!}
 									</dd>
 								@endif
-							@endif
+							@endif -->
 
 						</dl>
 

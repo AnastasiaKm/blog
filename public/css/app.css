@@ -879,7 +879,7 @@ html {
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 body {
-  font-family: "Roboto", Helvetica, Arial, sans-serif;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 14px;
   line-height: 1.42857143;
   color: #333333;
@@ -2714,7 +2714,7 @@ select[multiple].form-group-lg .form-control {
 .btn {
   display: inline-block;
   margin-bottom: 0;
-  font-weight: 300;
+  font-weight: normal;
   text-align: center;
   vertical-align: middle;
   -ms-touch-action: manipulation;
@@ -5487,7 +5487,7 @@ button.close {
   z-index: 1070;
   display: block;
   visibility: visible;
-  font-family: "Roboto", Helvetica, Arial, sans-serif;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 12px;
   font-weight: normal;
   line-height: 1.4;
@@ -5594,7 +5594,7 @@ button.close {
   display: none;
   max-width: 276px;
   padding: 1px;
-  font-family: "Roboto", Helvetica, Arial, sans-serif;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 14px;
   font-weight: normal;
   line-height: 1.42857143;
@@ -6206,10 +6206,62 @@ button.close {
     display: none !important;
   }
 }
-body,
-label,
-.checkbox label {
-  font-weight: 300;
+.navbar-default {
+  background-color: #00BAE9;
+  border-color: #f3f3f3;
+}
+.navbar-default .navbar-brand {
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+.navbar-default .navbar-nav > li > a {
+  color: #fff;
+}
+.navbar-default .navbar-nav > li > a:hover {
+  color: #2C6C91;
+}
+.navbar-default .navbar-nav > .active > a {
+  background-color: #0091b6;
+}
+.nav-gravatar {
+  float: left;
+  position: relative;
+  top: -6px;
+  left: -10px;
+  border: 1px solid #eeeeee;
+}
+.btn-primary {
+  background-color: #00BAE9;
+  border: 1px solid #0091b6;
+}
+.status-media {
+  border: 1px solid #e3e3e3;
+  border-bottom: none;
+  background: white;
+  padding: 1em;
+}
+.status-media-heading {
+  color: #409dd1;
+  position: relative;
+  top: 5px;
+}
+.status-media-body {
+  color: #B3BAC0;
+  font-size: 1.2em;
+  padding: .5em 1em 1em 1em;
+}
+.status-media-object {
+  position: relative;
+  top: 13px;
+  left: 10px;
+  border: 1px solid #eeeeee;
+}
+.status-media-time {
+  text-transform: uppercase;
+  font-size: 0.7em;
+  letter-spacing: 0.15em;
+  color: #ccd0d3;
 }
 .status-post {
   border: 1px solid #e3e3e3;
@@ -6228,15 +6280,32 @@ label,
   padding: .5em 1em;
   margin-bottom: 0;
   overflow: hidden;
+  background: #FDFCFC;
 }
 .status-post .status-post-submit .btn {
   float: right;
+  background: #2eb1e4;
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-family: helvetica;
 }
-.status-media {
+.status-post .status-post-submit .btn:hover {
+  background: #2790b1;
+}
+.comments__create-form textarea {
   border: 1px solid #e3e3e3;
-  background: white;
-  padding: 1em;
-  margin-bottom: 2em;
+  border-top: none;
+  border-radius: 0;
+}
+.comments {
+  margin-bottom: 5em;
+}
+.comments__comment {
+  background: #a29f9f;
+  margin-top: 0;
+  border: 1px solid #a29f9f;
+  border-bottom: 1px solid #e3e3e3;
 }
 .users {
   margin-bottom: 3em;
@@ -6244,8 +6313,22 @@ label,
 .user-block {
   text-align: center;
 }
-.user-block .avatar {
+.user-block .media-object {
   margin: auto;
+}
+body {
+  padding-top: 80px;
+  background-color: #f0f0f0;
+  font-family: 'Roboto', sans-serif;
+}
+.container h1:first-of-type {
+  margin-top: 0;
+}
+.page-header {
+  text-align: center;
+  margin-bottom: 1em;
+  padding-bottom: .5em;
+  border-bottom: 1px solid #ddd;
 }
 
 /*# sourceMappingURL=app.css.map */

@@ -71,22 +71,22 @@
 										{{ Form::password('password', ['class' => 'form-control']) }}
 									</div>
 
-									<div class="form-group has-feedback">
+									<!-- <div class="form-group has-feedback">
 										{!! Form::label('location', 'Your Location:'); !!}
 										{!! Form::text('location', old('location'), array('id' => 'location', 'class' => 'form-control', 'placeholder' => Lang::get('profile.ph-location'))) !!}
 											<span class="glyphicon glyphicon-pencil form-control-feedback" aria-hidden="true"></span>
 									</div>
 
-									{{-- <div class="form-group has-feedback">
+									<div class="form-group has-feedback">
 										{!! Form::label('location', Lang::get('profile.label-location') , array('class' => 'col-md-9 control-label')); !!}
 										<div class="col-md-9">
 											{!! Form::text('location', old('location'), array('id' => 'location', 'class' => 'form-control', 'placeholder' => Lang::get('profile.ph-location'))) !!}
 											<span class="glyphicon glyphicon-pencil form-control-feedback" aria-hidden="true"></span>
 										</div>
 									</div>
- --}}
 
-									{{-- <div class="form-group has-feedback">
+
+									<div class="form-group has-feedback">
 										{!! Form::label('bio', Lang::get('profile.label-bio') , array('class' => 'col-sm-4 control-label')); !!}
 										<div class="col-sm-6">
 											{!! Form::textarea('bio', old('bio'), array('id' => 'bio', 'class' => 'form-control', 'placeholder' => Lang::get('profile.ph-bio'))) !!}
@@ -107,8 +107,8 @@
 										<div class="col-sm-6">
 											{!! Form::text('github_username', old('github_username'), array('id' => 'github_username', 'class' => 'form-control', 'placeholder' => Lang::get('profile.ph-twitter_username'))) !!}
 											<span class="glyphicon glyphicon-pencil form-control-feedback" aria-hidden="true"></span>
-										</div>
-									</div> --}}
+										</div> -->
+									</div>
 
 									<div class="form-group">
 										<div class="col-sm-6 col-sm-offset-4">

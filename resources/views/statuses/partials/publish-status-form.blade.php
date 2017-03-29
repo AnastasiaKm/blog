@@ -9,7 +9,7 @@
     </div>
 
     <div class="form-group status-post-submit">
-      {{ Form:: submit('Post Status', ['class' => 'btn btn-default btn-xs']) }}
+      {{ Form:: submit('Post Status', ['class' => 'btn btn-primary btn-xs']) }}
     </div>
   {{ Form::close() }}
 </div> <!-- status post -->

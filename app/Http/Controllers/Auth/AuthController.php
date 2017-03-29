@@ -161,11 +161,11 @@ class AuthController extends Controller {
 		if($user->accountIsActive($code)) {
 
 			\Session::flash('message', \Lang::get('auth.successActivated') );
-			return redirect('home');
+			return redirect('/');
 		}
 
 		\Session::flash('message', \Lang::get('auth.unsuccessful') );
-		return redirect('home');
+		return redirect('/');
 
 	}
 
@@ -264,8 +264,9 @@ class AuthController extends Controller {
             //return redirect()->route('admin.home');
         }
 
+
+
         return \App::abort(500);
     }
 
 }
-

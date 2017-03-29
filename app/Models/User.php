@@ -179,8 +179,11 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
           return true;
         }
       }
-      // return dd($idsWhoOtherUserFollows);
-      // return in_array($this->id, $idsWhoOtherUserFollows);
+    }
+
+    public function statusComments()
+    {
+      return $this->hasMany('App\StatusComment');
     }
 
 
